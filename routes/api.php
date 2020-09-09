@@ -16,12 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/login', 'AuthController@onLogin');
 Route::get('/auth/user', 'AuthController@getUserInfo');
 
-Route::get('/{name}', 'ApiDefault@index')->where('name', '[A-Za-z]+')->middleware('cors');
+Route::get('/{name}', 'ApiDefault@index')->where('name', '[A-Za-z]+');
 
-Route::get('/{name}/{id}', 'ApiDefault@show')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+'])->middleware('cors');
+Route::get('/{name}/{id}', 'ApiDefault@show')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);
 
-Route::post('/{name}', 'ApiDefault@store')->where('name', '[A-Za-z]+')->middleware('cors');
+Route::post('/{name}', 'ApiDefault@store')->where('name', '[A-Za-z]+');
 
-Route::post('/{name}/{id}', 'ApiDefault@update')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+'])->middleware('cors');
+Route::post('/{name}/{id}', 'ApiDefault@update')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);
 
-Route::delete('/{name}/{id}', 'ApiDefault@remove')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+'])->middleware('cors');
+Route::delete('/{name}/{id}', 'ApiDefault@remove')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);
+
