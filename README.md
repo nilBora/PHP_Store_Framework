@@ -55,3 +55,8 @@ $table = [
     ]
 ];
 ```
+
+```php
+$store = new Store($name, new LaravelRequest($request), new LaravelProxy(), new Event(), $this->options);
+$response = $store->createActionList();
+```
