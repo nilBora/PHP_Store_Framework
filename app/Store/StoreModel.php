@@ -2,11 +2,14 @@
 namespace NilBora\NSF\Store;
 
 use NilBora\NSF\Store\Exceptions\StoreModelException;
+use NilBora\NSF\Store\Plugins\ICustomModel;
 
 class StoreModel implements IStoreModel
 {
     protected $store;
     protected $struct;
+    protected $hasModelFile = false;
+    protected $customModel;
     
     public function __construct(Store $store)
     {
@@ -15,10 +18,16 @@ class StoreModel implements IStoreModel
     
     public function load()
     {
-        $extensions = ['php', 'xml'];
         $options = $this->store->getOptions();
         $tableName = $fileName = $this->store->getTableName();
-
+        
+        if ($this->hasModelByLoad()) {
+            return $this->struct;
+        }
+     
+    
+        $extensions = ['php', 'xml'];
+        
         foreach ($extensions as $ext) {
             $filePath = $options['plugins_dir'].ucfirst(mb_strtolower($tableName))."/tblDefs/".$tableName.".".$ext;
         
@@ -70,5 +79,41 @@ class StoreModel implements IStoreModel
     {
         return $this->struct['table']['name'];
     }
+    
+    public function getProxy()
+    {
+        return $this->store->getProxy();
+    } // end getProxy
+    
+    protected function hasModelByLoad()
+    {
+        $options = $this->store->getOptions();
+        $tableName = $fileName = $this->store->getTableName();
+        $modelName = ucfirst($tableName);
+
+        if (file_exists($options['plugins_dir'].$modelName."/".$modelName.".php")) {
+            
+            $namespace = $options['plugins_namespace']."\\".$modelName."\\".$modelName;
+            $model = new $namespace();
+            if (!($model instanceof ICustomModel)) {
+                throw new StoreModelException("Model must be repeated ICustomModel");
+            }
+            $this->struct = $model->getStruct();
+            $this->hasModelFile = true;
+            $this->customModel = $model;
+            return true;
+        }
+        return false;
+    }
+    
+    public function hasModelFile()
+    {
+        return $this->hasModelFile;
+    } // end hasModelFile
+    
+    public function getCustomModel()
+    {
+        return $this->customModel;
+    } // getModel
     
 }

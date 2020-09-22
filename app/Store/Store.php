@@ -132,4 +132,9 @@ class Store
     {
         $this->event->addListener($name, $data);
     }
+    
+    public function getProxy()
+    {
+        return $this->proxy;
+    } // end getProxy
 }

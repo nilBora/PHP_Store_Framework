@@ -15,20 +15,30 @@ class LaravelProxy implements IProxy
         return DB::select($sql, $params);
     } // end select
     
-    public function build(string $tableName, array $select, array $search, array $orderBy, array $join, bool $isFirst = false, int $rowsPerPage = null)
+    public function build(string $tableName, array $select, array $search, array $orderBy, array $join, bool $isFirst = false, int $rowsPerPage = null, $options = [])
     {
         
         $query = DB::table($tableName);
         
         if ($select) {
+            foreach ($select as $key => $row) {
+                if (strstr($row, ".") === false) {
+                    $select[$key] = $tableName.".".$row;
+                }
+                
+            }
             if (!in_array($tableName.".id", $select) || !in_array("id", $select)) {
                 array_unshift($select, $tableName.".id");
             }
+
             $query->select($select);
         }
         
-        if ($join) {
-            $query->join($join);
+        if (!empty($options['join'])) {
+            foreach ($options['join'] as $joinRow) {
+                $query->join($joinRow[0], $joinRow[1], $joinRow[2], $joinRow[3]);
+            }
+            
         }
         
         if ($orderBy) {
@@ -54,7 +64,7 @@ class LaravelProxy implements IProxy
         $toReturn = [
             'items'       => $query->get(),
             'pagination'  => [
-                'total_items' => $query->count('id'),
+                'total_items' => $query->count($tableName.'.id'),
                 'total_pages' => 1,
                 'from'        => 1,
                 'to'          => 1,

@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use NilBora\NSF\Store\Exceptions\ApiException;
+use NilBora\NSF\Store\Exceptions\StoreModelException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -55,6 +56,12 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ApiException) {
             return response()->json([
                 'status'  => 'error',
+                'message' => $exception->getMessage()
+            ], $exception->getCode());
+        }
+        if ($exception instanceof StoreModelException) {
+            return response()->json([
+                'status'  => 'error-store',
                 'message' => $exception->getMessage()
             ], $exception->getCode());
         }

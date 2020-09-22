@@ -17,7 +17,8 @@ class ApiDefault extends Controller
     public function __construct()
     {
         $options = [
-            'plugins_dir' => app_path('Plugins')."/"
+            'plugins_dir'       => app_path('Plugins')."/",
+            'plugins_namespace' => '\App\Plugins'
         ];
         $this->options = $options;
     } // end __construct

@@ -45,8 +45,8 @@
         "psr-4": {
             "Tests\\": "tests/",
             "NilBora\\NSF\\Store\\": "app/Store/",
-            "NilBora\\NSF\\Events\\": "app/Store/events/",
-            "NilBora\\NSF\\Store\\Request\\": "app/Store/request/"
+            "NilBora\\NSF\\Events\\": "app/Store/Events/",
+            "NilBora\\NSF\\Store\\Request\\": "app/Store/Request/"
         }
     },
     "minimum-stability": "dev",
