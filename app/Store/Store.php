@@ -78,46 +78,6 @@ class Store
         return $actionInstance->onStart();
     }
     
-    public function search($tableName)
-    {
-        return $this->proxy->search($tableName);
-    }
-    
-    public function select($sql, $params = [])
-    {
-        return $this->proxy->select($sql, $params);
-    }
-    
-    public function getRow($sql, $params = [])
-    {
-        return $this->proxy->select($sql, $params);
-    }
-    
-    public function buildQuery($tableName, $select = [], $search = [], $orderBy = [], $join = [], $isFirst = false,  int $rowsPerPage = null)
-    {
-        return $this->proxy->build($tableName, $select, $search, $orderBy, $join, $isFirst, $rowsPerPage);
-    }
-    
-    public function add($tableName, $values)
-    {
-        return $this->proxy->add($tableName, $values);
-    }
-    
-    public function update($tableName, $values, $search)
-    {
-        return $this->proxy->update($tableName, $values, $search);
-    }
-    
-    public function remove($tableName, $search)
-    {
-        return $this->proxy->remove($tableName, $search);
-    }
-    
-    private function _getTableStruct()
-    {
-        return $this->model->getStruct();
-    }
-    
     public function getOptions()
     {
         return $this->options;
