@@ -6,7 +6,8 @@ use NilBora\NSF\Store\Exceptions\ApiException;
 use NilBora\NSF\Store\Store;
 use NilBora\NSF\Store\StoreResponse;
 
-class ActionList extends ActionDefault implements IAction
+
+class ActionList extends ActionDefault implements ActionInterface
 {
     public function onStart()
     {
@@ -55,7 +56,7 @@ class ActionList extends ActionDefault implements IAction
 
         $join = [];
         
-        $items = $this->model->getProxy()->build($tableName, $select, [], $orderBy, $join, false, $rowsPerPage, $queryData);
+        $items = $this->proxy->build($tableName, $select, [], $orderBy, $join, false, $rowsPerPage, $queryData);
         
         return new StoreResponse($items, $this->model);
     } // end onStart

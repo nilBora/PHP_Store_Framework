@@ -2,9 +2,13 @@
 
 namespace NilBora\NSF\Store\Plugins;
 
-trait EloquentModelTrait
+use Illuminate\Database\Eloquent\Model;
+
+class StoreEloquentModel extends Model implements CustomModelInterface
 {
-    protected $actions = [
+    //protected $with = [];
+    
+    public $actions = [
         "list"   => [
             "type"    => "list",
             "caption" => "Pages"
@@ -24,7 +28,20 @@ trait EloquentModelTrait
         $query = new self();
         
         return $this->pagination($query);
-    }
+    } // end onList
+    
+    public function onRow($search)
+    {
+        return static::with($this->with)->where($search)->first();
+    } // end onRow
+    
+    public function onInsert(array $values)
+    {
+        $model = new self($values);
+        $model->save();
+        $model->refresh();
+        return $model;
+    } // end onInsert
     
     public function getStruct()
     {
@@ -49,10 +66,11 @@ trait EloquentModelTrait
                 'from'        => 1,
                 'to'          => 1,
             ]
-    
+        
         ];
         $struct = $this->getStruct();
         $rowsPerPage = $struct['table']['rowsPerPage'] ?? null;
+        
         if ($rowsPerPage) {
             $paginationModel = $query->paginate($rowsPerPage);
             $toReturn = [
@@ -63,9 +81,10 @@ trait EloquentModelTrait
                     'from'        => $paginationModel->firstItem(),
                     'to'          => $paginationModel->lastItem(),
                 ]
-        
+            
             ];
         }
+        
         return $toReturn;
     }
 }

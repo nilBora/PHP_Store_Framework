@@ -1,14 +1,10 @@
 <?php
 namespace App\Plugins\PagesType;
 
-use Illuminate\Database\Eloquent\Model;
-use NilBora\NSF\Store\Plugins\EloquentModelTrait;
-use NilBora\NSF\Store\Plugins\ICustomModel;
+use NilBora\NSF\Store\Plugins\StoreEloquentModel;
 
-class PagesType extends Model implements ICustomModel
+class PagesType extends StoreEloquentModel
 {
-    use EloquentModelTrait;
-    
     protected $table = 'pages_type';
     
     

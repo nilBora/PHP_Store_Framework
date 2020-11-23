@@ -1,6 +1,6 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
-interface IAction
+interface ActionInterface
 {
     public function onStart();
 }

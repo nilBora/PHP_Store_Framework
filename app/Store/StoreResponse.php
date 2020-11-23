@@ -15,10 +15,10 @@ class StoreResponse
     /**
      * StoreResponse constructor.
      * @param array|\stdClass $data
-     * @param IStoreModel $model
+     * @param StoreModelInterface $model
      * @param array $options
      */
-    public function __construct($data, IStoreModel $model, array $options = [])
+    public function __construct($data, StoreModelInterface $model, array $options = [])
     {
         $this->data = $data;
         $this->model = $model;
@@ -47,7 +47,7 @@ class StoreResponse
             }
     
             if (is_object($items)) {
-                $this->setCheckSumInRow($items);
+                //$this->setCheckSumInRow($items);
             }
     
             $struct['fields'][Store::FIELD_CHECK_SUM] = [

@@ -2,21 +2,23 @@
 namespace NilBora\NSF\Store\Actions;
 
 use NilBora\NSF\Store\Exceptions\ApiException;
+use NilBora\NSF\Store\Proxy\IProxy;
 use NilBora\NSF\Store\Request\IStoreRequest;
 use NilBora\NSF\Store\StoreModel;
 use NilBora\NSF\Events\Event;
 use NilBora\NSF\Store\StoreResponse;
 
-class ActionEdit extends ActionDefault implements IAction
+class ActionEdit extends ActionDefault implements ActionInterface
 {
     protected $model;
     
-    public function __construct(StoreModel $model, Event $event, IStoreRequest $request, int $idRow)
+    public function __construct(StoreModel $model, IProxy $proxy, Event $event, IStoreRequest $request, int $idRow)
     {
         $this->model = $model;
         $this->primaryKeyValue = $idRow;
         $this->event = $event;
         $this->request = $request;
+        $this->proxy = $proxy;
     }
     
     public function onStart()
@@ -45,7 +47,7 @@ class ActionEdit extends ActionDefault implements IAction
         ];
         
     
-        $currentRow = $this->model->getStore()->buildQuery($tableName, $select, $search, [], [], true);
+        $currentRow = $this->proxy->build($tableName, $select, $search, [], [], true);
         if (!$currentRow) {
             throw new ApiException("Row Not Found");
         }
@@ -57,9 +59,9 @@ class ActionEdit extends ActionDefault implements IAction
             throw new ApiException("Data already changed!");
         }
         
-        $this->model->getStore()->update($tableName, $values, $search);
+        $this->proxy->update($tableName, $values, $search);
     
-        $item = $this->model->getStore()->buildQuery($tableName, $select, $search, [], [], true);
+        $item = $this->proxy->build($tableName, $select, $search, [], [], true);
     
         return new StoreResponse($item, $this->model);
     }

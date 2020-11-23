@@ -1,7 +1,7 @@
 <?php
 namespace NilBora\NSF\Store;
 
-interface IStoreModel
+interface StoreModelInterface
 {
     public function load();
 }

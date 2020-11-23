@@ -2,9 +2,9 @@
 namespace NilBora\NSF\Store;
 
 use NilBora\NSF\Store\Exceptions\StoreModelException;
-use NilBora\NSF\Store\Plugins\ICustomModel;
+use NilBora\NSF\Store\Plugins\CustomModelInterface;
 
-class StoreModel implements IStoreModel
+class StoreModel implements StoreModelInterface
 {
     protected $store;
     protected $struct;
@@ -95,7 +95,7 @@ class StoreModel implements IStoreModel
             
             $namespace = $options['plugins_namespace']."\\".$modelName."\\".$modelName;
             $model = new $namespace();
-            if (!($model instanceof ICustomModel)) {
+            if (!($model instanceof CustomModelInterface)) {
                 throw new StoreModelException("Model must be repeated ICustomModel");
             }
             $this->struct = $model->getStruct();
@@ -111,7 +111,7 @@ class StoreModel implements IStoreModel
         return $this->hasModelFile;
     } // end hasModelFile
     
-    public function getCustomModel()
+    public function getCustomModel(): CustomModelInterface
     {
         return $this->customModel;
     } // getModel

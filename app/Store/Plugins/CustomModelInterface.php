@@ -1,7 +1,7 @@
 <?php
 namespace NilBora\NSF\Store\Plugins;
 
-interface ICustomModel
+interface CustomModelInterface
 {
     public function onList();
 }

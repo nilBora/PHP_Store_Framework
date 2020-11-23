@@ -1,13 +1,10 @@
 <?php
 namespace App\Plugins\PageComments;
 
-use Illuminate\Database\Eloquent\Model;
-use NilBora\NSF\Store\Plugins\EloquentModelTrait;
-use NilBora\NSF\Store\Plugins\ICustomModel;
+use NilBora\NSF\Store\Plugins\StoreEloquentModel;
 
-class PageComments extends Model implements ICustomModel
+class PageComments extends StoreEloquentModel
 {
-    use EloquentModelTrait;
     protected $table = 'page_comments';
     
     

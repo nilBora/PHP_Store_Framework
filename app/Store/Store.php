@@ -37,7 +37,7 @@ class Store
     {
         $this->model->load();
         
-        $actionInstance = new ActionList($this->model, $this->event, $this->request);
+        $actionInstance = new ActionList($this->model, $this->proxy, $this->event, $this->request);
         
         return $actionInstance->onStart();
     }
@@ -46,7 +46,7 @@ class Store
     {
         $this->model->load();
 
-        $actionInstance = new ActionInfo($this->model, $this->event, $this->request, $idRow);
+        $actionInstance = new ActionInfo($this->model, $this->proxy, $this->event, $this->request, $idRow);
     
         return $actionInstance->onStart();
     }
@@ -55,7 +55,7 @@ class Store
     {
         $this->model->load();
     
-        $actionInstance = new ActionInsert($this->model, $this->event, $this->request);
+        $actionInstance = new ActionInsert($this->model, $this->proxy, $this->event, $this->request);
         
         return $actionInstance->onStart();
     }
@@ -64,7 +64,7 @@ class Store
     {
         $this->model->load();
 
-        $actionInstance = new ActionEdit($this->model, $this->event, $this->request, $idRow);
+        $actionInstance = new ActionEdit($this->model, $this->proxy, $this->event, $this->request, $idRow);
 
         return $actionInstance->onStart();
     }
@@ -73,7 +73,7 @@ class Store
     {
         $this->model->load();
     
-        $actionInstance = new ActionRemove($this->model, $this->event, $this->request, $idRow);
+        $actionInstance = new ActionRemove($this->model, $this->proxy, $this->event, $this->request, $idRow);
     
         return $actionInstance->onStart();
     }

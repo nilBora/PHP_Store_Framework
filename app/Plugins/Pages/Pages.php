@@ -3,17 +3,13 @@
 namespace App\Plugins\Pages;
 
 use App\Plugins\PageComments\PageComments;
-use Illuminate\Database\Eloquent\Model;
-use NilBora\NSF\Store\Plugins\EloquentModelTrait;
-use NilBora\NSF\Store\Plugins\ICustomModel;
+use NilBora\NSF\Store\Plugins\StoreEloquentModel;
 
-class Pages extends Model implements ICustomModel
+class Pages extends StoreEloquentModel
 {
-    use EloquentModelTrait;
-    
     protected $table = 'pages';
     
-    private static $_with = [
+    protected $with = [
         'type',
         'comments'
     ];
@@ -39,6 +35,7 @@ class Pages extends Model implements ICustomModel
             "caption" => "Body Text"
         ],
         "comments" => [
+            "name"              => "comments",
             "type"              => "many2many",
             "caption"           => "Relation",
             "linkTable"         => "page2comments",
@@ -50,35 +47,27 @@ class Pages extends Model implements ICustomModel
         ]
     ];
     
+    public $actions = [
+        "list"   => [
+            "type"    => "list",
+            "caption" => "Pages"
+        ],
+        "edit"   => [
+            "type"    => "edit",
+            "caption" => "Edit Page ID#%id%"
+        ],
+        "remove" => [
+            "type"    => "remove",
+            "caption" => "Delete"
+        ]
+    ];
+    
     
     public function onList()
     {
-        $query = static::with(static::$_with);
-        $toReturn = [
-            'items'       => $query->get(),
-            'pagination'  => [
-                'total_items' => $query->count('.id'),
-                'total_pages' => 1,
-                'from'        => 1,
-                'to'          => 1,
-            ]
-    
-        ];
-        $struct = $this->getStruct();
-        if (!empty($struct['table']['rowsPerPage'])) {
-            $paginationModel = $query->paginate($struct['table']['rowsPerPage']);
-            $toReturn = [
-                'items'       => $paginationModel->items(),
-                'pagination'  => [
-                    'total_items' => $paginationModel->total(),
-                    'total_pages' => $paginationModel->lastPage(),
-                    'from'        => $paginationModel->firstItem(),
-                    'to'          => $paginationModel->lastItem(),
-                ]
+        $query = static::with($this->with);
         
-            ];
-        }
-        return $toReturn;
+        return $this->pagination($query);
     }
     
     public function type()

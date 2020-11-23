@@ -3,7 +3,7 @@ namespace NilBora\NSF\Store\Actions;
 
 use NilBora\NSF\Store\StoreResponse;
 
-class ActionInsert extends ActionDefault implements IAction
+class ActionInsert extends ActionDefault implements ActionInterface
 {
     public function onStart()
     {
@@ -28,8 +28,17 @@ class ActionInsert extends ActionDefault implements IAction
         ];
 
         $this->event->fireHook("BeforeInsert", $target);
-
-        $id = $this->model->getStore()->add($tableName, $values);
+    
+//        if ($this->model->hasModelFile()) {
+//            $customModel = $this->model->getCustomModel();
+//            $item = $customModel->onList($values);
+//            $options = [
+//                'isCustom' => true
+//            ];
+//            return new StoreResponse(['ID'=> $item->id], $this->model, $options);
+//        }
+        
+        $id = $this->proxy->add($tableName, $values);
         $options = [
             'isCustom' => true
         ];
