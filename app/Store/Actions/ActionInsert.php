@@ -29,14 +29,14 @@ class ActionInsert extends ActionDefault implements ActionInterface
 
         $this->event->fireHook("BeforeInsert", $target);
     
-//        if ($this->model->hasModelFile()) {
-//            $customModel = $this->model->getCustomModel();
-//            $item = $customModel->onList($values);
-//            $options = [
-//                'isCustom' => true
-//            ];
-//            return new StoreResponse(['ID'=> $item->id], $this->model, $options);
-//        }
+        if ($this->model->hasModelFile()) {
+            $customModel = $this->model->getCustomModel();
+            $item = $customModel->onInsert($values);
+            $options = [
+                'isCustom' => true
+            ];
+            return new StoreResponse(['ID'=> $item->id], $this->model, $options);
+        }
         
         $id = $this->proxy->add($tableName, $values);
         $options = [

@@ -9,6 +9,11 @@ class Pages extends StoreEloquentModel
 {
     protected $table = 'pages';
     
+//    protected $fillable = [
+//        'name',
+//        'updated_at'
+//    ];
+    
     protected $with = [
         'type',
         'comments'

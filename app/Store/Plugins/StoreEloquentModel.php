@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class StoreEloquentModel extends Model implements CustomModelInterface
 {
-    //protected $with = [];
+    protected $fillable = [];
+    protected $fields = [];
+    protected $isSoftDelete = false;
     
     public $actions = [
         "list"   => [
@@ -23,6 +25,23 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         ]
     ];
     
+    public function __construct(array $attributes = [])
+    {
+        foreach ($this->fields as $fieldName => $row) {
+            if ($row['type'] == 'many2many') {
+                continue;
+            }
+            $this->fillable[] = $fieldName;
+        }
+        
+        if (!array_search('updated_at', $this->fillable)) {
+            array_push($this->fillable, 'updated_at');
+        }
+        
+
+        parent::__construct($attributes);
+    } // end __construct
+    
     public function onList()
     {
         $query = new self();
@@ -37,7 +56,9 @@ class StoreEloquentModel extends Model implements CustomModelInterface
     
     public function onInsert(array $values)
     {
-        $model = new self($values);
+        $class = get_called_class();
+
+        $model = new $class($values);
         $model->save();
         $model->refresh();
         return $model;
@@ -86,5 +107,26 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         }
         
         return $toReturn;
-    }
+    } // end pagination
+    
+    public function onUpdate($values, $search)
+    {
+        $model =  static::where($search)->first();
+        $model->fill($values);
+        $model->save();
+        
+        return $this->onRow($search);
+    } // end onUpdate
+    
+    public function onRemove($search)
+    {
+        $model = static::where($search)->first();
+        if ($this->isSoftDelete) {
+            $model->is_deleted = true;
+            //$this->is_active = false;
+            return $model->save();
+        }
+    
+        return $model->delete();
+    } // end onRemove
 }

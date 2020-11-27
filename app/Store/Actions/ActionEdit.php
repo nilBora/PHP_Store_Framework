@@ -14,19 +14,21 @@ class ActionEdit extends ActionDefault implements ActionInterface
     
     public function onStart()
     {
-        $tableName = $this->model->getTableName();
         $fields = $this->model->getFields();
-    
+        
         $select = [];
-
+    
         foreach ($fields as $field) {
             $select[] = $field['name'];
         }
         $values = [];
         $data = $this->request->all();
-        
+    
         foreach ($select as $row) {
-            $values[$row] = $data[$row] ?? null;
+            if (!isset($data[$row])) {
+                continue;
+            }
+            $values[$row] = $data[$row];
         }
         
         $search = [
@@ -36,7 +38,14 @@ class ActionEdit extends ActionDefault implements ActionInterface
                 $this->primaryKeyValue
             ]
         ];
+
+        if ($this->model->hasModelFile()) {
+            $customModel = $this->model->getCustomModel();
+            $items = $customModel->onUpdate($values, $search);
+            return new StoreResponse($items, $this->model);
+        }
         
+        $tableName = $this->model->getTableName();
     
         $currentRow = $this->proxy->build($tableName, $select, $search, [], [], true);
         if (!$currentRow) {
