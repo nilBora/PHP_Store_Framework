@@ -7,8 +7,9 @@ use NilBora\NSF\Store\Actions\ActionInfo;
 use NilBora\NSF\Store\Actions\ActionInsert;
 use NilBora\NSF\Store\Actions\ActionEdit;
 use NilBora\NSF\Store\Actions\ActionRemove;
-use NilBora\NSF\Store\Proxy\IProxy;
-use NilBora\NSF\Store\Request\IStoreRequest;
+use NilBora\NSF\Store\Exceptions\ActionNotFountException;
+use NilBora\NSF\Store\Proxy\ProxyInterface;
+use NilBora\NSF\Store\Request\StoreRequestInterface;
 
 class Store
 {
@@ -23,7 +24,7 @@ class Store
     protected $event;
     protected $request;
     
-    public function __construct(string $tableName, IStoreRequest $request, IProxy $proxy, Event $event, array $options = [])
+    public function __construct(string $tableName, StoreRequestInterface $request, ProxyInterface $proxy, Event $event, array $options = [])
     {
         $this->proxy = $proxy;
         $this->tableName = $tableName;
@@ -33,65 +34,39 @@ class Store
         $this->request = $request;
     }
     
-    public function createActionList()
+    public function createActionInstance(string $actionName, array $options = [])
     {
         $this->model->load();
-        
-        $actionInstance = new ActionList($this->model, $this->proxy, $this->event, $this->request);
-        
-        return $actionInstance->onStart();
-    }
-    
-    public function createActionInfo(int $idRow)
-    {
-        $this->model->load();
+        $actionName = "\NilBora\NSF\Store\Actions\Action".ucfirst(strtolower($actionName));
 
-        $actionInstance = new ActionInfo($this->model, $this->proxy, $this->event, $this->request, $idRow);
+        if (!class_exists($actionName)) {
+            throw new ActionNotFountException();
+        }
+        
+        return new $actionName($this->model, $this->proxy, $this->event, $this->request, $options);
+    } // end createActionInstance
     
-        return $actionInstance->onStart();
-    }
-    
-    public function createActionInsert()
+    public function actionStart(string $actionName, array $options = [])
     {
-        $this->model->load();
-    
-        $actionInstance = new ActionInsert($this->model, $this->proxy, $this->event, $this->request);
+        $actionInstance = $this->createActionInstance($actionName, $options);
         
         return $actionInstance->onStart();
-    }
-    
-    public function createActionEdit(int $idRow)
-    {
-        $this->model->load();
-
-        $actionInstance = new ActionEdit($this->model, $this->proxy, $this->event, $this->request, $idRow);
-
-        return $actionInstance->onStart();
-    }
-    
-    public function createActionRemove($idRow)
-    {
-        $this->model->load();
-    
-        $actionInstance = new ActionRemove($this->model, $this->proxy, $this->event, $this->request, $idRow);
-    
-        return $actionInstance->onStart();
-    }
+    } // end actionStart
     
     public function getOptions()
     {
         return $this->options;
-    }
+    } // end getOptions
     
     public function getTableName()
     {
         return $this->tableName;
-    }
+    } // end getTableName
     
     public function addListener($name, $data)
     {
         $this->event->addListener($name, $data);
-    }
+    } // end addListener
     
     public function getProxy()
     {

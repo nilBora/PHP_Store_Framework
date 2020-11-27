@@ -2,7 +2,7 @@
 
 namespace NilBora\NSF\Store\Request;
 
-interface IStoreRequest
+interface StoreRequestInterface
 {
 
 }

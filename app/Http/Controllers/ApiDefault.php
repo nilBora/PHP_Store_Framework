@@ -35,14 +35,16 @@ class ApiDefault extends Controller
     public function index(Request $request, string $name)
     {
         $store = $this->createStore($name, $request);
-        $response = $store->createActionList();
+        $response = $store->actionStart("List");
+
         return response()->json($response->getData());
     } // end index
     
-    public function show(string $name, int $id)
+    public function show(Request $request, string $name, int $id)
     {
-        $store = $this->createStore($name);
-        $response = $store->createActionInfo($id);
+        $store = $this->createStore($name, $request);
+        $response = $store->actionStart("Info", ['ID' => $id]);
+        
         $result = $response->getData();
         if (empty($result['data']['item'])) {
             return response()->json($result, 404);
@@ -54,7 +56,7 @@ class ApiDefault extends Controller
     public function store(Request $request, string $name)
     {
         $store = $this->createStore($name, $request);
-        $response = $store->createActionInsert();
+        $response = $store->actionStart("Insert");
        
         return response()->json($response->getData(), 201);
     } // end store
@@ -62,7 +64,7 @@ class ApiDefault extends Controller
     public function update(Request $request, string $name, int $id)
     {
         $store = $this->createStore($name, $request);
-        $response = $store->createActionEdit($id);
+        $response = $store->actionStart("Edit", ['ID' => $id]);
         
         return response()->json($response->getData());
     } // end update
@@ -70,7 +72,8 @@ class ApiDefault extends Controller
     public function remove(string $name, int $id)
     {
         $store = $this->createStore($name);
-        $response = $store->createActionRemove($id);
+        $response = $store->actionStart("Remove", ['ID' => $id]);
+
         return response()->json($response->getData(), 201); //XXX: fix this 204
     } // end destroy
 }

@@ -1,8 +1,8 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
 
-use NilBora\NSF\Store\Proxy\IProxy;
-use NilBora\NSF\Store\Request\IStoreRequest;
+use NilBora\NSF\Store\Proxy\ProxyInterface;
+use NilBora\NSF\Store\Request\StoreRequestInterface;
 use NilBora\NSF\Store\StoreModel;
 use NilBora\NSF\Events\Event;
 
@@ -14,13 +14,19 @@ abstract class ActionDefault
     protected $event;
     protected $request;
     protected $proxy;
+    protected $options;
     
-    public function __construct(StoreModel $model, IProxy $proxy, Event $event,IStoreRequest $request)
+    public function __construct(StoreModel $model, ProxyInterface $proxy, Event $event, StoreRequestInterface $request, array $options = [])
     {
         $this->model = $model;
         $this->event = $event;
         $this->request = $request;
         $this->proxy = $proxy;
+        $this->options = $options;
+        
+        if (array_key_exists('ID', $options)) {
+            $this->primaryKeyValue = $options['ID'];
+        }
     }
     
     protected function getPreparedValues(array $values)

@@ -3,7 +3,7 @@ namespace NilBora\NSF\Store\Proxy;
 
 use Illuminate\Support\Facades\DB;
 
-class LaravelProxy implements IProxy
+class LaravelProxy implements ProxyInterface
 {
     public function search(string $tableName)
     {

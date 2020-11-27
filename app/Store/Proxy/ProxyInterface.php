@@ -1,6 +1,6 @@
 <?php
 namespace NilBora\NSF\Store\Proxy;
-interface IProxy
+interface ProxyInterface
 {
 
 }

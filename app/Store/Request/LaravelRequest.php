@@ -4,7 +4,7 @@ namespace NilBora\NSF\Store\Request;
 
 use Illuminate\Http\Request;
 
-class LaravelRequest implements IStoreRequest
+class LaravelRequest implements StoreRequestInterface
 {
     protected $request;
     
