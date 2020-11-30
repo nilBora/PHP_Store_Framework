@@ -1,6 +1,6 @@
 <?php
 namespace NilBora\NSF\Store\Parsers;
-interface IParser
+interface ParserInterface
 {
     public function parse();
 }

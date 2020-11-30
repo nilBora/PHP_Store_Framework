@@ -1,6 +1,6 @@
 <?php
 
-namespace NilBora\NSF\Store\Plugins;
+namespace NilBora\NSF\Store\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +9,8 @@ class StoreEloquentModel extends Model implements CustomModelInterface
     protected $fillable = [];
     protected $fields = [];
     protected $isSoftDelete = false;
+    protected $orderByColumn = 'id';
+    protected $orderByDirection = 'ASC';
     
     public $actions = [
         "list"   => [
@@ -42,21 +44,21 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         parent::__construct($attributes);
     } // end __construct
     
-    public function onList()
+    public function onList(array $search = [])
     {
-        $query = new self();
+        $query = static::with($this->with)->where($search)->orderBy($this->orderByColumn, $this->orderByDirection);
         
         return $this->pagination($query);
     } // end onList
     
-    public function onRow($search)
+    public function onRow(array $search)
     {
         return static::with($this->with)->where($search)->first();
     } // end onRow
     
     public function onInsert(array $values)
     {
-        $class = get_called_class();
+        $class = $this->_getCalledClass();
 
         $model = new $class($values);
         $model->save();
@@ -77,7 +79,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         ];
     } // end getStruct
     
-    public function pagination($query)
+    public function pagination(object $query)
     {
         $toReturn = [
             'items'       => $query->get(),
@@ -109,7 +111,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         return $toReturn;
     } // end pagination
     
-    public function onUpdate($values, $search)
+    public function onUpdate(array $values, array $search)
     {
         $model =  static::where($search)->first();
         $model->fill($values);
@@ -118,7 +120,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         return $this->onRow($search);
     } // end onUpdate
     
-    public function onRemove($search)
+    public function onRemove(array $search)
     {
         $model = static::where($search)->first();
         if ($this->isSoftDelete) {
@@ -129,4 +131,9 @@ class StoreEloquentModel extends Model implements CustomModelInterface
     
         return $model->delete();
     } // end onRemove
+    
+    private function _getCalledClass(): string
+    {
+        return get_called_class();
+    } // end _getCalledClass
 }

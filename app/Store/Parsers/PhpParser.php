@@ -1,6 +1,6 @@
 <?php
 namespace NilBora\NSF\Store\Parsers;
-class PhpParser implements IParser
+class PhpParser implements ParserInterface
 {
     protected $path;
     

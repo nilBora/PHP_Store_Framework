@@ -2,7 +2,7 @@
 
 namespace NilBora\NSF\Store;
 
-class StoreResponse
+class StoreResponse implements SoreResponseInterface
 {
     const RESPONSE_STATUS_SUCCESS = "success";
     const FIELD_NAME_ITEMS        = "items";
@@ -25,12 +25,12 @@ class StoreResponse
         $this->options = $options;
     } // end __construct
     
-    public function getJson()
+    public function getJson(): string
     {
         return json_encode($this->getData());
     } // end getJson
     
-    public function getData()
+    public function getData(): array
     {
         $items = $this->getSourceData();
         

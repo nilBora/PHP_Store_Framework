@@ -12,7 +12,7 @@ class ActionEdit extends ActionDefault implements ActionInterface
 {
     protected $model;
     
-    public function onStart()
+    public function onStart(): StoreRequestInterface
     {
         $fields = $this->model->getFields();
         
@@ -38,8 +38,10 @@ class ActionEdit extends ActionDefault implements ActionInterface
                 $this->primaryKeyValue
             ]
         ];
-
+        
+        
         if ($this->model->hasModelFile()) {
+            //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
             $items = $customModel->onUpdate($values, $search);
             return new StoreResponse($items, $this->model);

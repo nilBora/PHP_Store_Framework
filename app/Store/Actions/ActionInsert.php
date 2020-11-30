@@ -1,11 +1,12 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
 
+use NilBora\NSF\Store\Request\StoreRequestInterface;
 use NilBora\NSF\Store\StoreResponse;
 
 class ActionInsert extends ActionDefault implements ActionInterface
 {
-    public function onStart()
+    public function onStart(): StoreRequestInterface
     {
         $tableName = $this->model->getTableName();
         $fields = $this->model->getFields();
@@ -30,6 +31,7 @@ class ActionInsert extends ActionDefault implements ActionInterface
         $this->event->fireHook("BeforeInsert", $target);
     
         if ($this->model->hasModelFile()) {
+            //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
             $item = $customModel->onInsert($values);
             $options = [

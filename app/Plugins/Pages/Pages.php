@@ -3,16 +3,11 @@
 namespace App\Plugins\Pages;
 
 use App\Plugins\PageComments\PageComments;
-use NilBora\NSF\Store\Plugins\StoreEloquentModel;
+use NilBora\NSF\Store\Model\StoreEloquentModel;
 
 class Pages extends StoreEloquentModel
 {
     protected $table = 'pages';
-    
-//    protected $fillable = [
-//        'name',
-//        'updated_at'
-//    ];
     
     protected $with = [
         'type',
@@ -67,13 +62,6 @@ class Pages extends StoreEloquentModel
         ]
     ];
     
-    
-    public function onList()
-    {
-        $query = static::with($this->with);
-        
-        return $this->pagination($query);
-    }
     
     public function type()
     {

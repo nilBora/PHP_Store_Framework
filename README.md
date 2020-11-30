@@ -60,3 +60,7 @@ $table = [
 $store = new Store($name, new LaravelRequest($request), new LaravelProxy(), new Event(), $this->options);
 $response = $store->createActionList();
 ```
+
+### Search
+`?search[name]=Page111&search[0][0]=body&search[0][1]=like&search[0][2]=%sdfsdf%`
+

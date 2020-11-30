@@ -1,7 +1,7 @@
 <?php
 namespace App\Plugins\PagesType;
 
-use NilBora\NSF\Store\Plugins\StoreEloquentModel;
+use NilBora\NSF\Store\Model\StoreEloquentModel;
 
 class PagesType extends StoreEloquentModel
 {
@@ -16,7 +16,7 @@ class PagesType extends StoreEloquentModel
         ],
     ];
     
-    public function onList()
+    public function onList(array $search = [])
     {
         $query = static::where('id', '>', 0);
         

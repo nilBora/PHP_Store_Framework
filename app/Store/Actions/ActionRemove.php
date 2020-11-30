@@ -9,7 +9,7 @@ use NilBora\NSF\Store\StoreResponse;
 
 class ActionRemove extends ActionDefault implements ActionInterface
 {
-    public function onStart()
+    public function onStart(): StoreRequestInterface
     {
         $tableName = $this->model->getTableName();
         

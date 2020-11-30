@@ -9,7 +9,7 @@ use NilBora\NSF\Store\StoreResponse;
 
 class ActionInfo extends ActionDefault implements ActionInterface
 {
-    public function onStart()
+    public function onStart(): StoreRequestInterface
     {
         $search = [
             [
@@ -20,6 +20,7 @@ class ActionInfo extends ActionDefault implements ActionInterface
         ];
         
         if ($this->model->hasModelFile()) {
+            //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
             $items = $customModel->onRow($search);
             return new StoreResponse($items, $this->model);
