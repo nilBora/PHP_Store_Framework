@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Jtrw\Events\EventManager;
 use NilBora\NSF\Store\Exceptions\ApiException;
 use NilBora\NSF\Store\Request\LaravelRequest;
 use NilBora\NSF\Store\Store;
@@ -29,7 +30,7 @@ class ApiDefault extends Controller
             $request = new Request();
         }
         
-        return new Store($name, new LaravelRequest($request), new LaravelProxy(), new Event(), $this->options);
+        return new Store($name, new LaravelRequest($request), new LaravelProxy(), new EventManager(), $this->options);
     } // end createStore
     
     public function index(Request $request, string $name)

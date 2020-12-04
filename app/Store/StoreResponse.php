@@ -14,8 +14,8 @@ class StoreResponse implements SoreResponseInterface
     
     /**
      * StoreResponse constructor.
-     * @param array|\stdClass $data
      * @param StoreModelInterface $model
+     * @param array|null $data
      * @param array $options
      */
     public function __construct(StoreModelInterface $model, array $data = null, array $options = [])

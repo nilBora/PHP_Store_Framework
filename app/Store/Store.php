@@ -1,7 +1,7 @@
 <?php
 namespace NilBora\NSF\Store;
 
-use NilBora\NSF\Events\Event;
+use Jtrw\Events\EventManagerInterface;
 use NilBora\NSF\Store\Actions\ActionInterface;
 use NilBora\NSF\Store\Exceptions\ActionNotFountException;
 use NilBora\NSF\Store\Proxy\ProxyInterface;
@@ -20,7 +20,7 @@ class Store implements StoreInterface
     protected $event;
     protected $request;
     
-    public function __construct(string $tableName, StoreRequestInterface $request, ProxyInterface $proxy, Event $event, array $options = [])
+    public function __construct(string $tableName, StoreRequestInterface $request, ProxyInterface $proxy, EventManagerInterface $event, array $options = [])
     {
         $this->proxy = $proxy;
         $this->tableName = $tableName;
