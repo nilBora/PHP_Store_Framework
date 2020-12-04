@@ -1,15 +1,12 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
 
-use NilBora\NSF\Store\Proxy\ProxyInterface;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
-use NilBora\NSF\Store\StoreModel;
-use NilBora\NSF\Events\Event;
+use NilBora\NSF\Store\SoreResponseInterface;
 use NilBora\NSF\Store\StoreResponse;
 
 class ActionRemove extends ActionDefault implements ActionInterface
 {
-    public function onStart(): StoreRequestInterface
+    public function onStart(): SoreResponseInterface
     {
         $tableName = $this->model->getTableName();
         
@@ -22,9 +19,10 @@ class ActionRemove extends ActionDefault implements ActionInterface
         ];
     
         $isRemove = $this->proxy->remove($tableName, $search);
+
         $options = [
             'isCustom' => true
         ];
-        return new StoreResponse(['remove' => $isRemove], $this->model, $options);
+        return new StoreResponse($this->model, ['remove' => $isRemove], $options);
     }
 }

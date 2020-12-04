@@ -2,17 +2,14 @@
 namespace NilBora\NSF\Store\Actions;
 
 use NilBora\NSF\Store\Exceptions\ApiException;
-use NilBora\NSF\Store\Proxy\ProxyInterface;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
-use NilBora\NSF\Store\StoreModel;
-use NilBora\NSF\Events\Event;
+use NilBora\NSF\Store\SoreResponseInterface;
 use NilBora\NSF\Store\StoreResponse;
 
 class ActionEdit extends ActionDefault implements ActionInterface
 {
     protected $model;
     
-    public function onStart(): StoreRequestInterface
+    public function onStart(): SoreResponseInterface
     {
         $fields = $this->model->getFields();
         
@@ -44,7 +41,7 @@ class ActionEdit extends ActionDefault implements ActionInterface
             //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
             $items = $customModel->onUpdate($values, $search);
-            return new StoreResponse($items, $this->model);
+            return new StoreResponse($this->model, $items);
         }
         
         $tableName = $this->model->getTableName();
@@ -65,6 +62,6 @@ class ActionEdit extends ActionDefault implements ActionInterface
     
         $item = $this->proxy->build($tableName, $select, $search, [], [], true);
     
-        return new StoreResponse($item, $this->model);
+        return new StoreResponse($this->model, $item);
     }
 }

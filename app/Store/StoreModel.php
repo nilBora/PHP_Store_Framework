@@ -2,7 +2,8 @@
 namespace NilBora\NSF\Store;
 
 use NilBora\NSF\Store\Exceptions\StoreModelException;
-use NilBora\NSF\Store\Plugins\CustomModelInterface;
+use NilBora\NSF\Store\Model\CustomModelInterface;
+use NilBora\NSF\Store\Proxy\ProxyInterface;
 
 class StoreModel implements StoreModelInterface
 {
@@ -11,12 +12,12 @@ class StoreModel implements StoreModelInterface
     protected $hasModelFile = false;
     protected $customModel;
     
-    public function __construct(Store $store)
+    public function __construct(StoreInterface $store)
     {
         $this->store = $store;
     }
     
-    public function load()
+    public function load(): array
     {
         $options = $this->store->getOptions();
         $tableName = $fileName = $this->store->getTableName();
@@ -24,7 +25,6 @@ class StoreModel implements StoreModelInterface
         if ($this->hasModelByLoad()) {
             return $this->struct;
         }
-     
     
         $extensions = ['php', 'xml'];
         
@@ -49,20 +49,20 @@ class StoreModel implements StoreModelInterface
                 return $this->struct;
             }
         }
-        throw new \Exception("File Not Found");
+        throw new StoreModelException("File Not Found");
     }
     
-    public function getStruct()
+    public function getStruct(): array
     {
         return $this->struct;
     }
     
-    public function getStore()
+    public function getStore(): StoreInterface
     {
         return $this->store;
     }
     
-    public function getFields()
+    public function getFields(): array
     {
         if (!$this->hasKeyInStruct('fields')) {
             new StoreModelException("Key 'Fields' Not Found In Struct");
@@ -70,22 +70,22 @@ class StoreModel implements StoreModelInterface
         return $this->struct['fields'];
     } // end getFields
     
-    public function hasKeyInStruct($key)
+    public function hasKeyInStruct(string $key): bool
     {
         return array_key_exists($key, $this->struct);
     }
     
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->struct['table']['name'];
     }
     
-    public function getProxy()
+    public function getProxy(): ProxyInterface
     {
         return $this->store->getProxy();
     } // end getProxy
     
-    protected function hasModelByLoad()
+    protected function hasModelByLoad(): bool
     {
         $options = $this->store->getOptions();
         $tableName = $fileName = $this->store->getTableName();
@@ -96,7 +96,7 @@ class StoreModel implements StoreModelInterface
             $namespace = $options['plugins_namespace']."\\".$modelName."\\".$modelName;
             $model = new $namespace();
             if (!($model instanceof CustomModelInterface)) {
-                throw new StoreModelException("Model must be repeated ICustomModel");
+                throw new StoreModelException("Model must be repeated CustomModelInterface");
             }
             $this->struct = $model->getStruct();
             $this->hasModelFile = true;
@@ -106,7 +106,7 @@ class StoreModel implements StoreModelInterface
         return false;
     }
     
-    public function hasModelFile()
+    public function hasModelFile(): bool
     {
         return $this->hasModelFile;
     } // end hasModelFile

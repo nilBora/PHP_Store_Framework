@@ -1,15 +1,12 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
 
-use NilBora\NSF\Store\Proxy\ProxyInterface;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
-use NilBora\NSF\Store\StoreModel;
-use NilBora\NSF\Events\Event;
+use NilBora\NSF\Store\SoreResponseInterface;
 use NilBora\NSF\Store\StoreResponse;
 
 class ActionInfo extends ActionDefault implements ActionInterface
 {
-    public function onStart(): StoreRequestInterface
+    public function onStart(): SoreResponseInterface
     {
         $search = [
             [
@@ -23,7 +20,8 @@ class ActionInfo extends ActionDefault implements ActionInterface
             //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
             $items = $customModel->onRow($search);
-            return new StoreResponse($items, $this->model);
+
+            return new StoreResponse($this->model, $items);
         }
         
         $tableName = $this->model->getTableName();
@@ -39,6 +37,6 @@ class ActionInfo extends ActionDefault implements ActionInterface
 
         $items = $this->proxy->build($tableName, $select, $search, [], [], true);
 
-        return new StoreResponse($items, $this->model);
+        return new StoreResponse($this->model, $items);
     }
 }

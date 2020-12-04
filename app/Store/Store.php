@@ -2,16 +2,12 @@
 namespace NilBora\NSF\Store;
 
 use NilBora\NSF\Events\Event;
-use NilBora\NSF\Store\Actions\ActionList;
-use NilBora\NSF\Store\Actions\ActionInfo;
-use NilBora\NSF\Store\Actions\ActionInsert;
-use NilBora\NSF\Store\Actions\ActionEdit;
-use NilBora\NSF\Store\Actions\ActionRemove;
+use NilBora\NSF\Store\Actions\ActionInterface;
 use NilBora\NSF\Store\Exceptions\ActionNotFountException;
 use NilBora\NSF\Store\Proxy\ProxyInterface;
 use NilBora\NSF\Store\Request\StoreRequestInterface;
 
-class Store
+class Store implements StoreInterface
 {
     const FIELD_CHECK_SUM = "CHECK_SUM";
     
@@ -34,7 +30,7 @@ class Store
         $this->request = $request;
     }
     
-    public function createActionInstance(string $actionName, array $options = [])
+    public function createActionInstance(string $actionName, array $options = []): ActionInterface
     {
         $this->model->load();
         $actionName = "\NilBora\NSF\Store\Actions\Action".ucfirst(strtolower($actionName));
@@ -46,29 +42,29 @@ class Store
         return new $actionName($this->model, $this->proxy, $this->event, $this->request, $options);
     } // end createActionInstance
     
-    public function actionStart(string $actionName, array $options = [])
+    public function actionStart(string $actionName, array $options = []): SoreResponseInterface
     {
         $actionInstance = $this->createActionInstance($actionName, $options);
         
         return $actionInstance->onStart();
     } // end actionStart
     
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     } // end getOptions
     
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->tableName;
     } // end getTableName
     
-    public function addListener($name, $data)
+    public function addListener(string $name, array $data)
     {
         $this->event->addListener($name, $data);
     } // end addListener
     
-    public function getProxy()
+    public function getProxy(): ProxyInterface
     {
         return $this->proxy;
     } // end getProxy

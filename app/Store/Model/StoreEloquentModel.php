@@ -40,33 +40,36 @@ class StoreEloquentModel extends Model implements CustomModelInterface
             array_push($this->fillable, 'updated_at');
         }
         
-
         parent::__construct($attributes);
     } // end __construct
     
-    public function onList(array $search = [])
+    public function onList(array $search = []): array
     {
         $query = static::with($this->with)->where($search)->orderBy($this->orderByColumn, $this->orderByDirection);
         
         return $this->pagination($query);
     } // end onList
     
-    public function onRow(array $search)
+    public function onRow(array $search): ?array
     {
-        return static::with($this->with)->where($search)->first();
+        $row = static::with($this->with)->where($search)->first();
+        if (!$row) {
+            return null;
+        }
+        return $row->toArray();
     } // end onRow
     
-    public function onInsert(array $values)
+    public function onInsert(array $values): array
     {
         $class = $this->_getCalledClass();
 
         $model = new $class($values);
         $model->save();
         $model->refresh();
-        return $model;
+        return $model->toArray();
     } // end onInsert
     
-    public function getStruct()
+    public function getStruct(): array
     {
         return [
             "table"   => [
@@ -79,10 +82,15 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         ];
     } // end getStruct
     
-    public function pagination(object $query)
+    public function pagination(object $query): array
     {
+        $result = $query->get();
+        $rowsData = null;
+        if ($result) {
+            $rowsData = $result->toArray();
+        }
         $toReturn = [
-            'items'       => $query->get(),
+            'items'       => $rowsData,
             'pagination'  => [
                 'total_items' => $query->count('.id'),
                 'total_pages' => 1,
@@ -97,7 +105,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         if ($rowsPerPage) {
             $paginationModel = $query->paginate($rowsPerPage);
             $toReturn = [
-                'items'       => $paginationModel->items(),
+                'items'       => $paginationModel->items()->toArray(),
                 'pagination'  => [
                     'total_items' => $paginationModel->total(),
                     'total_pages' => $paginationModel->lastPage(),
@@ -111,7 +119,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         return $toReturn;
     } // end pagination
     
-    public function onUpdate(array $values, array $search)
+    public function onUpdate(array $values, array $search): array
     {
         $model =  static::where($search)->first();
         $model->fill($values);
@@ -120,7 +128,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         return $this->onRow($search);
     } // end onUpdate
     
-    public function onRemove(array $search)
+    public function onRemove(array $search): bool
     {
         $model = static::where($search)->first();
         if ($this->isSoftDelete) {

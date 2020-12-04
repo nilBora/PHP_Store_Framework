@@ -16,7 +16,7 @@ class PagesType extends StoreEloquentModel
         ],
     ];
     
-    public function onList(array $search = [])
+    public function onList(array $search = []): array
     {
         $query = static::where('id', '>', 0);
         

@@ -1,12 +1,12 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
 
-use NilBora\NSF\Store\Request\StoreRequestInterface;
+use NilBora\NSF\Store\SoreResponseInterface;
 use NilBora\NSF\Store\StoreResponse;
 
 class ActionInsert extends ActionDefault implements ActionInterface
 {
-    public function onStart(): StoreRequestInterface
+    public function onStart(): SoreResponseInterface
     {
         $tableName = $this->model->getTableName();
         $fields = $this->model->getFields();
@@ -34,10 +34,11 @@ class ActionInsert extends ActionDefault implements ActionInterface
             //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
             $item = $customModel->onInsert($values);
+
             $options = [
                 'isCustom' => true
             ];
-            return new StoreResponse(['ID'=> $item->id], $this->model, $options);
+            return new StoreResponse($this->model, ['ID'=> $item['id']], $options);
         }
         
         $id = $this->proxy->add($tableName, $values);

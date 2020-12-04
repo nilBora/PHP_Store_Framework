@@ -1,16 +1,14 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
 
-use App\Plugins\Pages\Pages;
-use NilBora\NSF\Store\Exceptions\ApiException;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
+use NilBora\NSF\Store\SoreResponseInterface;
 use NilBora\NSF\Store\Store;
 use NilBora\NSF\Store\StoreResponse;
 
 
 class ActionList extends ActionDefault implements ActionInterface
 {
-    public function onStart(): StoreRequestInterface
+    public function onStart(): SoreResponseInterface
     {
         if ($this->model->hasModelFile()) {
             //XXX: New Store Logic
@@ -58,10 +56,10 @@ class ActionList extends ActionDefault implements ActionInterface
         
         $items = $this->proxy->build($tableName, $select, [], $orderBy, $join, false, $rowsPerPage, $queryData);
         
-        return new StoreResponse($items, $this->model);
+        return new StoreResponse($this->model, $items);
     } // end onStart
     
-    protected function onCustomModelStart(): StoreRequestInterface
+    protected function onCustomModelStart(): SoreResponseInterface
     {
         $search = [];
         $customModel = $this->model->getCustomModel();
@@ -73,8 +71,8 @@ class ActionList extends ActionDefault implements ActionInterface
         }
     
         $items = $customModel->onList($search);
-        
-        return new StoreResponse($items, $this->model);
+
+        return new StoreResponse($this->model, $items);
     } // end onCustomModelStart
     
     protected function getPreparedQueryByFields(array $fields, array $table, array $queryData): array

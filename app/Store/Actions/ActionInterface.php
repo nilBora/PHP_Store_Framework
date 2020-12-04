@@ -1,8 +1,8 @@
 <?php
 namespace NilBora\NSF\Store\Actions;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
+use NilBora\NSF\Store\SoreResponseInterface;
 
 interface ActionInterface
 {
-    public function onStart(): StoreRequestInterface;
+    public function onStart(): SoreResponseInterface;
 }

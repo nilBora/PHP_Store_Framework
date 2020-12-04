@@ -18,7 +18,7 @@ class StoreResponse implements SoreResponseInterface
      * @param StoreModelInterface $model
      * @param array $options
      */
-    public function __construct($data, StoreModelInterface $model, array $options = [])
+    public function __construct(StoreModelInterface $model, array $data = null, array $options = [])
     {
         $this->data = $data;
         $this->model = $model;
@@ -33,7 +33,7 @@ class StoreResponse implements SoreResponseInterface
     public function getData(): array
     {
         $items = $this->getSourceData();
-        
+
         $itemsReturn = $items;
         $struct = $this->model->getStruct();
         
@@ -41,13 +41,11 @@ class StoreResponse implements SoreResponseInterface
         if (empty($this->options['isCustom'])) {
             $itemsFieldName = static::FIELD_NAME_ITEM;
     
-            if (!is_object($items) && !empty($items['items']) && is_array($items['items'])) {
+            if (!empty($items['items']) && is_array($items['items'])) {
                 $itemsFieldName = static::FIELD_NAME_ITEMS;
                 $items['items'] = $this->getPreparedValues($items['items']);
-            }
-    
-            if (is_object($items)) {
-                //$this->setCheckSumInRow($items);
+            } else if (is_array($items)) {
+                $this->setCheckSumInRow($items);
             }
     
             $struct['fields'][Store::FIELD_CHECK_SUM] = [
@@ -56,12 +54,10 @@ class StoreResponse implements SoreResponseInterface
             ];
     
             $itemsReturn = [$itemsFieldName => $items];
-            if (!is_object($items) && !empty($items['items'])) {
+            if (!empty($items['items'])) {
                 $itemsReturn = $items;
             }
-            
         }
-        
         
         $returnData = [
             'status' => static::RESPONSE_STATUS_SUCCESS,
@@ -80,20 +76,17 @@ class StoreResponse implements SoreResponseInterface
         return $this->data;
     } // end getSourceData
     
-    protected function getPreparedValues(array $values)
+    protected function getPreparedValues(array $values): array
     {
         foreach ($values as $itemKey => $item) {
-            if (!is_object($item)) {
-                continue;
-            }
             $this->setCheckSumInRow($item);
         }
         
         return $values;
     } // end getPreparedValues
     
-    protected function setCheckSumInRow(\stdClass $class)
+    protected function setCheckSumInRow(array &$item)
     {
-        $class->CHECK_SUM = md5(json_encode($class));
+        $item['CHECK_SUM'] = md5(json_encode($item));
     } // end setCheckSumInRow
 }

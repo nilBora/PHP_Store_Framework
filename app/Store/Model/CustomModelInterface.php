@@ -3,11 +3,11 @@ namespace NilBora\NSF\Store\Model;
 
 interface CustomModelInterface
 {
-    public function onList(array $search = []);
-    public function onRow(array $search);
+    public function onList(array $search = []): array;
+    public function onRow(array $search): ?array;
     public function onInsert(array $values);
-    public function getStruct();
-    public function pagination(object $query);
-    public function onUpdate(array $values, array $search);
-    public function onRemove(array $search);
+    public function getStruct(): array;
+    public function pagination(object $query): array;
+    public function onUpdate(array $values, array $search): array;
+    public function onRemove(array $search): bool;
 }
