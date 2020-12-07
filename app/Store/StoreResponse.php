@@ -1,6 +1,6 @@
 <?php
 
-namespace NilBora\NSF\Store;
+namespace Jtrw\Store;
 
 class StoreResponse implements SoreResponseInterface
 {

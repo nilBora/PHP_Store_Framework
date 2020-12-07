@@ -1,6 +1,6 @@
 <?php
 
-namespace NilBora\NSF\Store\Model;
+namespace Jtrw\Store\Model;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store\Exceptions;
+namespace Jtrw\Store\Exceptions;
 
 class StoreModelException extends \Exception
 {

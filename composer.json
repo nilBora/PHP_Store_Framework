@@ -45,9 +45,9 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "NilBora\\NSF\\Store\\": "app/Store/",
-            "NilBora\\NSF\\Events\\": "app/Store/Events/",
-            "NilBora\\NSF\\Store\\Request\\": "app/Store/Request/"
+            "Jtrw\\Store\\": "app/Store/",
+            "Jtrw\\Events\\": "app/Store/Events/",
+            "Jtrw\\Store\\Request\\": "app/Store/Request/"
         }
     },
     "minimum-stability": "dev",

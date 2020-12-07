@@ -1,8 +1,8 @@
 <?php
-namespace NilBora\NSF\Store;
+namespace Jtrw\Store;
 
-use NilBora\NSF\Store\Actions\ActionInterface;
-use NilBora\NSF\Store\Proxy\ProxyInterface;
+use Jtrw\Store\Actions\ActionInterface;
+use Jtrw\Store\Proxy\ProxyInterface;
 
 interface StoreInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store\Parsers;
+namespace Jtrw\Store\Parsers;
 class PhpParser implements ParserInterface
 {
     protected $path;

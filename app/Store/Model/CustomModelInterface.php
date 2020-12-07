@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store\Model;
+namespace Jtrw\Store\Model;
 
 interface CustomModelInterface
 {

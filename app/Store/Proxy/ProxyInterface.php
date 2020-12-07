@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store\Proxy;
+namespace Jtrw\Store\Proxy;
 interface ProxyInterface
 {
     public function search(string $tableName);

@@ -1,9 +1,8 @@
 <?php
-namespace NilBora\NSF\Store\Actions;
+namespace Jtrw\Store\Actions;
 
-use NilBora\NSF\Store\SoreResponseInterface;
-use NilBora\NSF\Store\Store;
-use NilBora\NSF\Store\StoreResponse;
+use Jtrw\Store\SoreResponseInterface;
+use Jtrw\Store\StoreResponse;
 
 
 class ActionList extends ActionDefault implements ActionInterface

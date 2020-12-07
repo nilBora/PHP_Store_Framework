@@ -1,8 +1,8 @@
 <?php
-namespace NilBora\NSF\Store\Actions;
+namespace Jtrw\Store\Actions;
 
-use NilBora\NSF\Store\SoreResponseInterface;
-use NilBora\NSF\Store\StoreResponse;
+use Jtrw\Store\SoreResponseInterface;
+use Jtrw\Store\StoreResponse;
 
 class ActionRemove extends ActionDefault implements ActionInterface
 {

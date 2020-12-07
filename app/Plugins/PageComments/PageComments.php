@@ -1,7 +1,7 @@
 <?php
 namespace App\Plugins\PageComments;
 
-use NilBora\NSF\Store\Model\StoreEloquentModel;
+use Jtrw\Store\Model\StoreEloquentModel;
 
 class PageComments extends StoreEloquentModel
 {

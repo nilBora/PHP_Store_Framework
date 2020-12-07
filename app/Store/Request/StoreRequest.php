@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store\Request;
+namespace Jtrw\Store\Request;
 
 class StoreRequest implements StoreRequestInterface
 {

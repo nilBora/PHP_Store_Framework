@@ -1,7 +1,7 @@
 <?php
 namespace App\Plugins\PagesType;
 
-use NilBora\NSF\Store\Model\StoreEloquentModel;
+use Jtrw\Store\Model\StoreEloquentModel;
 
 class PagesType extends StoreEloquentModel
 {

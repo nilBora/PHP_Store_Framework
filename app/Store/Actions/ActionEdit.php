@@ -1,9 +1,9 @@
 <?php
-namespace NilBora\NSF\Store\Actions;
+namespace Jtrw\Store\Actions;
 
-use NilBora\NSF\Store\Exceptions\ApiException;
-use NilBora\NSF\Store\SoreResponseInterface;
-use NilBora\NSF\Store\StoreResponse;
+use Jtrw\Store\Exceptions\ApiException;
+use Jtrw\Store\SoreResponseInterface;
+use Jtrw\Store\StoreResponse;
 
 class ActionEdit extends ActionDefault implements ActionInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store;
+namespace Jtrw\Store;
 
 interface SoreResponseInterface
 {

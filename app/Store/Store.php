@@ -1,11 +1,11 @@
 <?php
-namespace NilBora\NSF\Store;
+namespace Jtrw\Store;
 
 use Jtrw\Events\EventManagerInterface;
-use NilBora\NSF\Store\Actions\ActionInterface;
-use NilBora\NSF\Store\Exceptions\ActionNotFountException;
-use NilBora\NSF\Store\Proxy\ProxyInterface;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
+use Jtrw\Store\Actions\ActionInterface;
+use Jtrw\Store\Exceptions\ActionNotFountException;
+use Jtrw\Store\Proxy\ProxyInterface;
+use Jtrw\Store\Request\StoreRequestInterface;
 
 class Store implements StoreInterface
 {
@@ -33,7 +33,7 @@ class Store implements StoreInterface
     public function createActionInstance(string $actionName, array $options = []): ActionInterface
     {
         $this->model->load();
-        $actionName = "\NilBora\NSF\Store\Actions\Action".ucfirst(strtolower($actionName));
+        $actionName = "\Jtrw\Store\Actions\Action".ucfirst(strtolower($actionName));
 
         if (!class_exists($actionName)) {
             throw new ActionNotFountException();

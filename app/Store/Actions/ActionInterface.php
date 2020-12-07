@@ -1,6 +1,6 @@
 <?php
-namespace NilBora\NSF\Store\Actions;
-use NilBora\NSF\Store\SoreResponseInterface;
+namespace Jtrw\Store\Actions;
+use Jtrw\Store\SoreResponseInterface;
 
 interface ActionInterface
 {

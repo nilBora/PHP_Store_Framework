@@ -1,10 +1,10 @@
 <?php
-namespace NilBora\NSF\Store\Actions;
+namespace Jtrw\Store\Actions;
 
 use Jtrw\Events\EventManagerInterface;
-use NilBora\NSF\Store\Proxy\ProxyInterface;
-use NilBora\NSF\Store\Request\StoreRequestInterface;
-use NilBora\NSF\Store\StoreModelInterface;
+use Jtrw\Store\Proxy\ProxyInterface;
+use Jtrw\Store\Request\StoreRequestInterface;
+use Jtrw\Store\StoreModelInterface;
 
 abstract class ActionDefault
 {

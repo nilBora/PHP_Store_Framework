@@ -3,7 +3,7 @@
 namespace App\Plugins\Pages;
 
 use App\Plugins\PageComments\PageComments;
-use NilBora\NSF\Store\Model\StoreEloquentModel;
+use Jtrw\Store\Model\StoreEloquentModel;
 
 class Pages extends StoreEloquentModel
 {

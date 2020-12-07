@@ -1,5 +1,6 @@
 <?php
-namespace NilBora\NSF\Store\Exceptions;
+namespace Jtrw\Store\Exceptions;
+
 class ApiException extends \Exception
 {
     public function __construct($message = '', $code = 400)
