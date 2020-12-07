@@ -33,7 +33,7 @@ class StoreModel implements StoreModelInterface
         
             if (file_exists($filePath)) {
                 $parserName = ucfirst($ext)."Parser";
-                $namespace = "\NilBora\NSF\Store\Parsers\\".$parserName;
+                $namespace = "\Jtrw\Store\Parsers\\".$parserName;
 
                 $parserInstance = new $namespace($filePath);
                 $struct = $parserInstance->parse();
