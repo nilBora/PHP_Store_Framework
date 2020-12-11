@@ -30,7 +30,7 @@ class ActionList extends ActionDefault implements ActionInterface
         $target = [
             'model'  => $this->model,
             'store'  => $this->model->getStore(),
-            'select' => &$select
+            'search' => &$select
         ];
     
         $this->event->fireHook(Store::HOOK_BEFORE_LIST, $target);
@@ -70,7 +70,19 @@ class ActionList extends ActionDefault implements ActionInterface
             $search = $request['search'];
         }
     
+        $target = [
+            'model'  => $this->model,
+            'store'  => $this->model->getStore(),
+            'search' => &$search
+        ];
+    
+        $this->event->fireHook(Store::HOOK_BEFORE_LIST, $target);
+    
         $items = $customModel->onList($search);
+    
+        $target['items'] = $items;
+        
+        $this->event->fireHook(Store::HOOK_AFTER_LIST, $target);
 
         return new StoreResponse($this->model, $items);
     } // end onCustomModelStart

@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use Jtrw\Events\EventSource;
+use Jtrw\Events\EventSourceInterface;
 use NilBora\NSF\Events\EventData;
 
 class ShortenerController extends Controller
@@ -13,7 +15,7 @@ class ShortenerController extends Controller
         $eventData->saveValues($values);
     }
     
-    public function onBeforeList(EventData $eventData)
+    public function onBeforeList(EventSourceInterface $eventData)
     {
         // TODO: Logic Before List
     }

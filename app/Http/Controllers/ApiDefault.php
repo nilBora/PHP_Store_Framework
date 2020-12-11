@@ -29,7 +29,10 @@ class ApiDefault extends Controller
             $request = new Request();
         }
         
-        return new Store($name, new LaravelRequest($request), new LaravelProxy(), new EventManager(), $this->options);
+        $eventDispatcher = new EventManager();
+        //$eventDispatcher->addListener(Store::HOOK_BEFORE_LIST, [new ShortenerController(), 'onBeforeList']);
+        
+        return new Store($name, new LaravelRequest($request), new LaravelProxy(), $eventDispatcher, $this->options);
     } // end createStore
     
     public function index(Request $request, string $name)

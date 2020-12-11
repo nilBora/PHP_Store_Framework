@@ -12,6 +12,7 @@ class Store implements StoreInterface
     const FIELD_CHECK_SUM = "CHECK_SUM";
     
     const HOOK_BEFORE_LIST = "BeforeList";
+    const HOOK_AFTER_LIST  = "AfterList";
     
     protected $proxy;
     protected $tableName;

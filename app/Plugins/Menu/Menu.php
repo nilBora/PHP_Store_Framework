@@ -14,7 +14,7 @@ class Menu extends StoreEloquentModel
         "caption"   => [
             "type"    => "text",
             "name"    => "caption",
-            "caption" => "Host"
+            "caption" => "Caption"
         ],
         "url"       => [
             "type"    => "text",
