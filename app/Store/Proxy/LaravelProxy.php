@@ -103,4 +103,22 @@ class LaravelProxy implements ProxyInterface
     {
         return DB::table($tableName)->where($search)->delete();
     } // end delete
+    
+    public function load(string $tableName, array $search = [])
+    {
+        return DB::table($tableName)->where($search)->get()->toArray();
+    } // end load
+    
+    public function loadRow(string $tableName, array $search = [])
+    {
+        $preparedSearch = [];
+        foreach ($search as $key => $value) {
+            $preparedSearch[] = [
+                $key,
+                '=',
+                $value
+            ];
+        }
+        return DB::table($tableName)->where($preparedSearch)->first();
+    } // end loadRow
 }

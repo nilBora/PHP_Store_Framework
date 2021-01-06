@@ -15,6 +15,17 @@ class Pages extends StoreEloquentModel
     ];
     
     protected $fields = [
+       
+        "name"     => [
+            "type"    => "text",
+            "name"    => "name",
+            "caption" => "Page Name"
+        ],
+        "body"     => [
+            "type"    => "textarea",
+            "name"    => "body",
+            "caption" => "Body"
+        ],
         "id_type"  => [
             "type"              => "foreignKey",
             "foreignTable"      => "pages_type",
@@ -24,27 +35,17 @@ class Pages extends StoreEloquentModel
             "name"              => "id_type",
             "caption"           => "Type"
         ],
-        "name"     => [
-            "type"    => "text",
-            "name"    => "name",
-            "caption" => "Page NAme"
-        ],
-        "body"     => [
-            "type"    => "textarea",
-            "name"    => "body",
-            "caption" => "Body Text"
-        ],
-        "comments" => [
-            "name"              => "comments",
-            "type"              => "many2many",
-            "caption"           => "Relation",
-            "linkTable"         => "page2comments",
-            "linkField"         => "id_page",
-            "linkForeignField"  => "id_comment",
-            "foreignTable"      => "page_comments",
-            "foreignKeyField"   => "id",
-            "foreignValueField" => "name"
-        ]
+//        "comments" => [
+//            "name"              => "comments",
+//            "type"              => "many2many",
+//            "caption"           => "Relation",
+//            "linkTable"         => "page2comments",
+//            "linkField"         => "id_page",
+//            "linkForeignField"  => "id_comment",
+//            "foreignTable"      => "page_comments",
+//            "foreignKeyField"   => "id",
+//            "foreignValueField" => "name"
+//        ]
     ];
     
     public $actions = [

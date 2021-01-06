@@ -12,4 +12,5 @@ interface StoreInterface
     public function getTableName(): string;
     public function addListener(string $name, array $data);
     public function getProxy(): ProxyInterface;
+    public function getModel(): StoreModelInterface;
 }

@@ -1,5 +1,5 @@
 <?php
-namespace NilBora\NSF\Store\Actions;
+namespace Jtrw\Store\Actions;
 
 use Jtrw\Store\SoreResponseInterface;
 use Jtrw\Store\StoreResponse;

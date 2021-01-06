@@ -8,4 +8,6 @@ interface ProxyInterface
     public function add(string $tableName, array $values);
     public function update(string $tableName, array $values, array $search);
     public function remove(string $tableName, array $search);
+    public function load(string $tableName, array $search = []);
+    public function loadRow(string $tableName, array $search = []);
 }

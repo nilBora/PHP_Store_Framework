@@ -49,8 +49,9 @@ class StoreResponse implements SoreResponseInterface
             }
     
             $struct['fields'][Store::FIELD_CHECK_SUM] = [
-                'name' => Store::FIELD_CHECK_SUM,
-                'type' => Store::FIELD_CHECK_SUM
+                'name'    => Store::FIELD_CHECK_SUM,
+                'type'    => "hidden",
+                'caption' => "CHECK_SUM" //XXX: FIX it
             ];
     
             $itemsReturn = [$itemsFieldName => $items];

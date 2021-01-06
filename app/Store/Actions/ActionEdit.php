@@ -39,7 +39,17 @@ class ActionEdit extends ActionDefault implements ActionInterface
         
         if ($this->model->hasModelFile()) {
             //XXX: New Store Logic
+            
             $customModel = $this->model->getCustomModel();
+    
+            $currentRow = $customModel->onRow($search);
+
+            $hash = md5(json_encode($currentRow));
+    
+            if (!empty($data['CHECK_SUM']) && $hash != $data['CHECK_SUM']) {
+                throw new ApiException("Data already changed!");
+            }
+            
             $items = $customModel->onUpdate($values, $search);
             return new StoreResponse($this->model, $items);
         }

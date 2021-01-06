@@ -66,9 +66,17 @@ class ApiDefault extends Controller
     
     public function update(Request $request, string $name, int $id)
     {
-        $store = $this->createStore($name, $request);
-        $response = $store->actionStart("Edit", ['ID' => $id]);
-        
+        try {
+            $store = $this->createStore($name, $request);
+            $response = $store->actionStart("Edit", ['ID' => $id]);
+        } catch (ApiException $exp) {
+            $response = [
+                'status'  => 'error',
+                'type'    => 'api',
+                'message' => $exp->getMessage()
+            ];
+            return response()->json($response);
+        }
         return response()->json($response->getData());
     } // end update
     

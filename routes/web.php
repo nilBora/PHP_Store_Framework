@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/table/{name}', 'DashboardController@index')->where('name', '[A-Za-z]+');
+
 Route::get('/api', function () {
     echo 'api';
 });

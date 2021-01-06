@@ -69,4 +69,9 @@ class Store implements StoreInterface
     {
         return $this->proxy;
     } // end getProxy
+    
+    public function getModel(): StoreModelInterface
+    {
+        return $this->model;
+    } // end getModel
 }
