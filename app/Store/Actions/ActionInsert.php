@@ -1,24 +1,24 @@
 <?php
 namespace Jtrw\Store\Actions;
 
-use Jtrw\Store\SoreResponseInterface;
+use Jtrw\Store\StoreResponseInterface;
 use Jtrw\Store\StoreResponse;
 
 class ActionInsert extends ActionDefault implements ActionInterface
 {
-    public function onStart(): SoreResponseInterface
+    public function onStart(): StoreResponseInterface
     {
         $tableName = $this->model->getTableName();
         $fields = $this->model->getFields();
-    
+
         $select = [];
-        
+
         foreach ($fields as $field) {
             $select[] = $field['name'];
         }
         $values = [];
         $data = $this->request->all();
-        
+
         foreach ($select as $row) {
             $values[$row] = $data[$row] ?? null;
         }
@@ -29,7 +29,7 @@ class ActionInsert extends ActionDefault implements ActionInterface
         ];
 
         $this->event->fireHook("BeforeInsert", $target);
-    
+
         if ($this->model->hasModelFile()) {
             //XXX: New Store Logic
             $customModel = $this->model->getCustomModel();
@@ -40,7 +40,7 @@ class ActionInsert extends ActionDefault implements ActionInterface
             ];
             return new StoreResponse($this->model, ['ID'=> $item['id']], $options);
         }
-        
+
         $id = $this->proxy->add($tableName, $values);
         $options = [
             'isCustom' => true

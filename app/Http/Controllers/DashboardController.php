@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,11 +8,14 @@ use Jtrw\Events\EventManager;
 use Jtrw\Store\Proxy\LaravelProxy;
 use Jtrw\Store\Request\LaravelRequest;
 use Jtrw\Store\Store;
+use Jtrw\StoreUtils\StoreCreateTrait;
+use Jtrw\StoreView\Menu;
+use Jtrw\StoreView\MenuInterface;
 use Jtrw\StoreView\StoreView;
 
 class DashboardController extends Controller
 {
-    protected array $options;
+    use StoreCreateTrait;
     
     public function __construct()
     {
@@ -19,20 +23,10 @@ class DashboardController extends Controller
             'plugins_dir'       => app_path('Plugins')."/",
             'plugins_namespace' => '\App\Plugins'
         ];
-        $this->options = $options;
+        
+        $this->setStoreOptions($options);
+        
     } // end __construct
-    
-    protected function createStore(string $name, Request $request = null)
-    {
-        if (!$request) {
-            $request = new Request();
-        }
-        
-        $eventDispatcher = new EventManager();
-        //$eventDispatcher->addListener(Store::HOOK_BEFORE_LIST, [new ShortenerController(), 'onBeforeList']);
-        
-        return new Store($name, new LaravelRequest($request), new LaravelProxy(), $eventDispatcher, $this->options);
-    } // end createStore
     
     public function index(Request $request, string $name)
     {
@@ -42,14 +36,25 @@ class DashboardController extends Controller
         $storeView = new StoreView($name, $response);
         
         $notification = null;
-        
+
         return view(
             'table',
             [
-                'response' => $response->getData(),
-                'view' => $storeView,
-                'notification' => $notification
+                'response'     => $response->getData(),
+                'view'         => $storeView,
+                'notification' => $notification,
+                'sidebar'      => $this->_getSideBar($request->getRequestUri())
             ]
         );
     }
+    
+    private function _getSideBar(string $currentUri): MenuInterface
+    {
+        $store = $this->createStore("menu");
+        $response = $store->actionStart("List");
+        $items = $response->getData()['data']['items'];
+        
+        return new Menu($items, $currentUri);
+    }
+    
 }

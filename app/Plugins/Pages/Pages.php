@@ -8,67 +8,17 @@ use Jtrw\Store\Model\StoreEloquentModel;
 class Pages extends StoreEloquentModel
 {
     protected $table = 'pages';
-    
+
     protected $with = [
         'type',
         'comments'
     ];
-    
-    protected $fields = [
-       
-        "name"     => [
-            "type"    => "text",
-            "name"    => "name",
-            "caption" => "Page Name"
-        ],
-        "body"     => [
-            "type"    => "textarea",
-            "name"    => "body",
-            "caption" => "Body"
-        ],
-        "id_type"  => [
-            "type"              => "foreignKey",
-            "foreignTable"      => "pages_type",
-            "alias"             => "type",
-            "foreignKeyField"   => "id",
-            "foreignValueField" => "name",
-            "name"              => "id_type",
-            "caption"           => "Type"
-        ],
-//        "comments" => [
-//            "name"              => "comments",
-//            "type"              => "many2many",
-//            "caption"           => "Relation",
-//            "linkTable"         => "page2comments",
-//            "linkField"         => "id_page",
-//            "linkForeignField"  => "id_comment",
-//            "foreignTable"      => "page_comments",
-//            "foreignKeyField"   => "id",
-//            "foreignValueField" => "name"
-//        ]
-    ];
-    
-    public $actions = [
-        "list"   => [
-            "type"    => "list",
-            "caption" => "Pages"
-        ],
-        "edit"   => [
-            "type"    => "edit",
-            "caption" => "Edit Page ID#%id%"
-        ],
-        "remove" => [
-            "type"    => "remove",
-            "caption" => "Delete"
-        ]
-    ];
-    
-    
+
     public function type()
     {
         return $this->belongsTo(\App\Plugins\PagesType\PagesType::class, 'id_type', 'id');
     } // end type
-    
+
     public function comments()
     {
         return $this->belongsToMany(
@@ -80,5 +30,5 @@ class Pages extends StoreEloquentModel
         //->withPivot('id', 'created_user_id', 'updated_user_id')
         //    ->withTimestamps();
     } // end statusHistory
-    
+
 }

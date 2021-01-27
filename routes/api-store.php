@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/render/edit/{name}/{id}', 'StoreViewController@show')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);
 Route::get('/render/add/{name}', 'StoreViewController@onShowEmptyForm')->where('name', '[A-Za-z]+');
+
+Route::get('/{name}', 'DashboardApi@index')->where('name', '[A-Za-z]+');
+
+Route::get('/{name}/{id}', 'DashboardApi@show')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);
+
+Route::post('/{name}', 'DashboardApi@store')->where('name', '[A-Za-z]+');
+
+Route::post('/{name}/{id}', 'DashboardApi@update')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);
+
+Route::delete('/{name}/{id}', 'DashboardApi@remove')->where('name', '[A-Za-z]+')->where(['id' => '[0-9]+']);

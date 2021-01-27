@@ -1,29 +1,47 @@
 <?php
 
+use App\Plugins\PageComments\PageComments;
+
 $table = [
     "table" => [
         "name"       => "pages",
-        "primaryKey" => "id"
+        "primaryKey" => "id",
+        "model"      => \App\Plugins\Pages\Pages::class
     ],
     "fields" => [
-        "id_type" => [
-            "type" => "foreignKey",
-            "foreignTable" => "pages_type",
-            "alias" => "type",
-            "foreignKeyField" => "id",
+        "name"     => [
+            "type"    => "text",
+            "name"    => "name",
+            "caption" => "Page Name",
+            "search"  => true
+        ],
+        "body"     => [
+            "type"    => "textarea",
+            "name"    => "body",
+            "caption" => "Body"
+        ],
+        "id_type"  => [
+            "type"              => "foreignKey",
+            "foreignTable"      => "pages_type",
+            "foreignModel"      => \App\Plugins\PagesType\PagesType::class,
+            "alias"             => "type",
+            "foreignKeyField"   => "id",
             "foreignValueField" => "name",
-            "name" => "id_type",
-            "caption" => "Page"
+            "name"              => "id_type",
+            "caption"           => "Type"
         ],
-        "name" => [
-            "type" => "text",
-            "name" => "name",
-            "caption" => "File Input"
-        ],
-        "body" => [
-            "type" => "text",
-            "name" => "body",
-            "caption" => "File Output"
+        "comments" => [
+            "name"              => "comments",
+            "type"              => "many2many",
+            "caption"           => "Comments",
+            "linkTable"         => "page2comments",
+            "linkField"         => "id_page",
+            "linkForeignField"  => "id_comment",
+            "foreignTable"      => "page_comments",
+            "foreignModel"      => \App\Plugins\PagesType\PageComments::class,
+            "foreignKeyField"   => "id",
+            "foreignValueField" => "name",
+            "alias"             => "comments",
         ]
     ],
     "actions" => [

@@ -79,10 +79,10 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
-    
+
     protected function mapApiStoreRoutes()
     {
-        Route::prefix('api-store')
+        Route::prefix(env('DASHBOARD_API_PREFIX', 'api-store'))
             //->middleware('api-store')
             ->namespace($this->namespace)
             ->group(base_path('routes/api-store.php'));

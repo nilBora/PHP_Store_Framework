@@ -1,8 +1,8 @@
 <?php
 namespace Jtrw\Store\Actions;
-use Jtrw\Store\SoreResponseInterface;
+use Jtrw\Store\StoreResponseInterface;
 
 interface ActionInterface
 {
-    public function onStart(): SoreResponseInterface;
+    public function onStart(): StoreResponseInterface;
 }

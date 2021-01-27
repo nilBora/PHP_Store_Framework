@@ -11,7 +11,7 @@ class FieldEntity
 {
     private array $_fieldsTypes;
     private array $_fieldData;
-    
+
     public function __construct(array $fieldData, array $fieldsTypes, ProxyInterface $proxy = null)
     {
         $this->_fieldData = $fieldData;
@@ -33,12 +33,12 @@ class FieldEntity
         }
         $this->_fieldsTypes = $fieldsObjects;
     }
-    
+
     public function getFields(): array
     {
         return $this->_fieldsTypes;
     }
-    
+
     public function getID(): int
     {
         if (!array_key_exists('id', $this->_fieldData)) {
@@ -46,7 +46,7 @@ class FieldEntity
         }
         return $this->_fieldData['id'];
     } // end getID
-    
+
     public function getValue()
     {
         if (!array_key_exists($this->_fieldType->getName(), $this->_fieldData)) {
@@ -54,5 +54,5 @@ class FieldEntity
         }
         return $this->_fieldData[$this->_fieldType->getName()];
     } // end getValue
-    
+
 }

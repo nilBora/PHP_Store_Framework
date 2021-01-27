@@ -7,3 +7,8 @@
         @endforeach
     </select>
 </div>
+<script>
+    jQuery(function() {
+        jQuery('.select2').select2();
+    });
+</script>

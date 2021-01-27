@@ -7,7 +7,7 @@ use Jtrw\Store\Proxy\ProxyInterface;
 interface StoreInterface
 {
     public function createActionInstance(string $actionName, array $options = []): ActionInterface;
-    public function actionStart(string $actionName, array $options = []): SoreResponseInterface;
+    public function actionStart(string $actionName, array $options = []): StoreResponseInterface;
     public function getOptions(): array;
     public function getTableName(): string;
     public function addListener(string $name, array $data);

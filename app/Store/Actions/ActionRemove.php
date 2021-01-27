@@ -1,15 +1,15 @@
 <?php
 namespace Jtrw\Store\Actions;
 
-use Jtrw\Store\SoreResponseInterface;
+use Jtrw\Store\StoreResponseInterface;
 use Jtrw\Store\StoreResponse;
 
 class ActionRemove extends ActionDefault implements ActionInterface
 {
-    public function onStart(): SoreResponseInterface
+    public function onStart(): StoreResponseInterface
     {
         $tableName = $this->model->getTableName();
-        
+
         $search = [
             [
                 $this->primaryKey,
@@ -17,7 +17,7 @@ class ActionRemove extends ActionDefault implements ActionInterface
                 $this->primaryKeyValue
             ]
         ];
-    
+
         $isRemove = $this->proxy->remove($tableName, $search);
 
         $options = [

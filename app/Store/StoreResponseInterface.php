@@ -1,10 +1,10 @@
 <?php
 namespace Jtrw\Store;
 
-interface SoreResponseInterface
+interface StoreResponseInterface
 {
     public function getJson(): string;
     public function getData(): array;
     public function getSourceData();
-    
+
 }
