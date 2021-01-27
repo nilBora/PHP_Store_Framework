@@ -52,7 +52,17 @@ var Store = {
 
                     //XXX: add logic validate fields
                     if (data.status == 'error') {
-                        jQuery('.error').text(data.message);
+                        if (data.type == 'field') {
+                            let fileds = JSON.parse(data.fields);
+
+                            jQuery.each(fileds, function(name, value) {
+                                let fieldName = value.name;
+                                jQuery('input[name="'+fieldName+'"]').addClass('is-invalid');
+                            })
+                        } else {
+                            jQuery('.error').text(data.message);
+                        }
+
                     }
                 });
             } else {

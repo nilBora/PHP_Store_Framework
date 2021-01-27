@@ -270,7 +270,7 @@
 
 <script src="{{ URL::asset('assets/plugins/datetimepicker/build/jquery.datetimepicker.full.min.js') }}"></script>
 
-<script src="{{ URL::asset('dist/js/store.js') }}"></script>
+<script src="{{ URL::asset('dist/js/store.js') }}?{{time()}}"></script>
 
 
 </body>

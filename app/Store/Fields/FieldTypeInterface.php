@@ -6,4 +6,5 @@ interface FieldTypeInterface
 {
     public function getName(): string;
     public function getValue();
+    public function doValidate(): ?array;
 }

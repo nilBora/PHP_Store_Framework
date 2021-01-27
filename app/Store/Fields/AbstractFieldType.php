@@ -20,4 +20,28 @@ abstract class AbstractFieldType implements FieldTypeInterface
     {
         return $this->field['value'];
     } // end getValue
+
+    public function getRegExp()
+    {
+        if (array_key_exists('regExp', $this->field)) {
+            return $this->field['regExp'];
+        }
+
+    } // end getValue
+
+    public function doValidate(): ?array
+    {
+        if ($regExp = $this->getRegExp()) {
+
+            if (!preg_match($regExp, $this->getValue())) {
+                return [
+                    'name' => $this->getName(),
+                    'error' => sprintf("RegExp: '%s' Error!", $regExp)
+                ];
+            }
+
+        }
+
+        return null;
+    }
 }

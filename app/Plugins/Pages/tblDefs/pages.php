@@ -13,6 +13,7 @@ $table = [
             "type"    => "text",
             "name"    => "name",
             "caption" => "Page Name",
+            "regExp"  => "#([0-9])#Umis",
             "search"  => true
         ],
         "body"     => [
