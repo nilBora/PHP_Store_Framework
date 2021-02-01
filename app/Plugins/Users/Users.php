@@ -9,7 +9,6 @@ class Users extends StoreEloquentModel
     protected $table = 'users';
 
     protected $fields = [
-
         "name"     => [
             "type"    => "text",
             "name"    => "name",

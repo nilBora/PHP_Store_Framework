@@ -49,10 +49,9 @@ class StoreEloquentModel extends Model implements CustomModelInterface
             $this->fillable[] = $fieldName;
         }
 
-        if (!array_search('updated_at', $this->fillable)) {
+        if (!array_key_exists('updated_at', $this->fillable)) {
             array_push($this->fillable, 'updated_at');
         }
-
         parent::__construct($attributes);
     } // end __construct
 
@@ -141,7 +140,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         $model =  static::with([])->where($search)->first();
 
         $model = $this->onSyncFields($model, $values);
-
+        $model->fillable = $this->fillable;
         $model->fill($values);
         $model->save();
         $model->refresh();
