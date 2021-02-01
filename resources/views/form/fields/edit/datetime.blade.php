@@ -4,7 +4,6 @@
         <input type="text"
                name="{{$field->getName()}}"
                class="form-control datetimepicker-input {{$field->getClassName()}}"
-               id="reservationdate"
                value="{{ $field->getValue() }}"
                data-format="{{ $field->getFormat() }}"/>
         <span class="error invalid-feedback"></span>

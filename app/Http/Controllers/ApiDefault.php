@@ -24,30 +24,26 @@ class ApiDefault extends Controller
         $this->options = $options;
     } // end __construct
 
-    protected function createStore(string $name, Request $request = null)
+    protected function createStore(string $name)
     {
-        if (!$request) {
-            $request = new Request();
-        }
-
         $eventDispatcher = new EventManager();
         //$eventDispatcher->addListener(Store::HOOK_BEFORE_LIST, [new ShortenerController(), 'onBeforeList']);
 
-        return new Store($name, new LaravelRequest($request), new LaravelProxy(), $eventDispatcher, $this->options);
+        return new Store($name, new LaravelProxy(), $eventDispatcher, $this->options);
     } // end createStore
 
     public function index(Request $request, string $name)
     {
-        $store = $this->createStore($name, $request);
-        $response = $store->actionStart("List");
+        $store = $this->createStore($name);
+        $response = $store->actionStart("List", $request);
 
         return response()->json($response->getData());
     } // end index
 
     public function show(Request $request, string $name, int $id)
     {
-        $store = $this->createStore($name, $request);
-        $response = $store->actionStart("Info", ['ID' => $id]);
+        $store = $this->createStore($name);
+        $response = $store->actionStart("Info", $request, ['ID' => $id]);
 
         $result = $response->getData();
         if (empty($result['data']['item'])) {
@@ -59,8 +55,8 @@ class ApiDefault extends Controller
 
     public function store(Request $request, string $name)
     {
-        $store = $this->createStore($name, $request);
-        $response = $store->actionStart("Insert");
+        $store = $this->createStore($name);
+        $response = $store->actionStart("Insert", $request);
 
         return response()->json($response->getData(), 201);
     } // end store
@@ -68,8 +64,8 @@ class ApiDefault extends Controller
     public function update(Request $request, string $name, int $id)
     {
         try {
-            $store = $this->createStore($name, $request);
-            $response = $store->actionStart("Edit", ['ID' => $id]);
+            $store = $this->createStore($name);
+            $response = $store->actionStart("Edit", $request, ['ID' => $id]);
         } catch (ApiException $exp) {
             $response = [
                 'status'  => 'error',
@@ -92,7 +88,7 @@ class ApiDefault extends Controller
     public function remove(string $name, int $id)
     {
         $store = $this->createStore($name);
-        $response = $store->actionStart("Remove", ['ID' => $id]);
+        $response = $store->actionStart("Remove", null, ['ID' => $id]);
 
         return response()->json($response->getData(), 201); //XXX: fix this 204
     } // end destroy

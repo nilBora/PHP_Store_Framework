@@ -64,7 +64,7 @@ class ActionList extends ActionDefault implements ActionInterface
         $search = [];
         $customModel = $this->model->getCustomModel();
 
-        $request = $this->request->all();
+        $request =$this->request->query->all();
 
         if (!empty($request['search'])) {
             $search = $request['search'];

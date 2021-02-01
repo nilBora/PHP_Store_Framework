@@ -16,25 +16,25 @@ use Jtrw\StoreView\StoreView;
 class DashboardController extends Controller
 {
     use StoreCreateTrait;
-    
+
     public function __construct()
     {
         $options = [
             'plugins_dir'       => app_path('Plugins')."/",
             'plugins_namespace' => '\App\Plugins'
         ];
-        
+
         $this->setStoreOptions($options);
-        
+
     } // end __construct
-    
+
     public function index(Request $request, string $name)
     {
-        $store = $this->createStore($name, $request);
-        $response = $store->actionStart("List");
-        
+        $store = $this->createStore($name);
+        $response = $store->actionStart("List", $request);
+
         $storeView = new StoreView($name, $response);
-        
+
         $notification = null;
 
         return view(
@@ -47,14 +47,14 @@ class DashboardController extends Controller
             ]
         );
     }
-    
+
     private function _getSideBar(string $currentUri): MenuInterface
     {
         $store = $this->createStore("menu");
         $response = $store->actionStart("List");
         $items = $response->getData()['data']['items'];
-        
+
         return new Menu($items, $currentUri);
     }
-    
+
 }

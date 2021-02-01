@@ -36,6 +36,11 @@ class Users extends StoreEloquentModel
             "name"    => "updated_at",
             "caption" => "Updated Date",
             "format"  => "d-m-Y H:i"
-        ]
+        ],
+        "cv"     => [
+            "type"    => "file",
+            "name"    => "cv",
+            "caption" => "User CV"
+        ],
     ];
 }

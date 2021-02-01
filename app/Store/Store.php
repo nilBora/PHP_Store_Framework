@@ -6,6 +6,7 @@ use Jtrw\Store\Actions\ActionInterface;
 use Jtrw\Store\Exceptions\ActionNotFountException;
 use Jtrw\Store\Proxy\ProxyInterface;
 use Jtrw\Store\Request\StoreRequestInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Store implements StoreInterface
 {
@@ -14,24 +15,23 @@ class Store implements StoreInterface
     const HOOK_BEFORE_LIST = "BeforeList";
     const HOOK_AFTER_LIST  = "AfterList";
 
-    protected $proxy;
-    protected $tableName;
-    protected $options;
-    protected $model;
-    protected $event;
-    protected $request;
+    protected ProxyInterface $proxy;
+    protected string $tableName;
+    protected array $options;
+    protected StoreModelInterface $model;
+    protected EventManagerInterface $event;
+    protected Request $request;
 
-    public function __construct(string $tableName, StoreRequestInterface $request, ProxyInterface $proxy, EventManagerInterface $event, array $options = [])
+    public function __construct(string $tableName, ProxyInterface $proxy, EventManagerInterface $event, array $options = [])
     {
         $this->proxy = $proxy;
         $this->tableName = $tableName;
         $this->options = $options;
         $this->model = new StoreModel($this);
         $this->event = $event;
-        $this->request = $request;
     }
 
-    public function createActionInstance(string $actionName, array $options = []): ActionInterface
+    public function createActionInstance(string $actionName, Request $request = null, array $options = []): ActionInterface
     {
         $this->model->load();
         $actionName = "\Jtrw\Store\Actions\Action".ucfirst(strtolower($actionName));
@@ -40,12 +40,15 @@ class Store implements StoreInterface
             throw new ActionNotFountException();
         }
 
-        return new $actionName($this->model, $this->proxy, $this->event, $this->request, $options);
+        return new $actionName($this->model, $this->proxy, $this->event, $request, $options);
     } // end createActionInstance
 
-    public function actionStart(string $actionName, array $options = []): StoreResponseInterface
+    public function actionStart(string $actionName, Request $request = null, array $options = []): StoreResponseInterface
     {
-        $actionInstance = $this->createActionInstance($actionName, $options);
+        if (!$request) {
+            $request = new Request();
+        }
+        $actionInstance = $this->createActionInstance($actionName, $request, $options);
 
         return $actionInstance->onStart();
     } // end actionStart

@@ -2,12 +2,13 @@
 namespace Jtrw\Store\Actions;
 
 use Jtrw\Store\Exceptions\ApiException;
+use Jtrw\Store\StoreModelInterface;
 use Jtrw\Store\StoreResponseInterface;
 use Jtrw\Store\StoreResponse;
 
 class ActionEdit extends ActionDefault implements ActionInterface
 {
-    protected $model;
+    protected StoreModelInterface $model;
 
     public function onStart(): StoreResponseInterface
     {
@@ -19,7 +20,7 @@ class ActionEdit extends ActionDefault implements ActionInterface
             $select[] = $field['name'];
         }
 
-        $data = $this->request->all();
+        $data = $this->request->request->all();
 
         $fieldsFactory = $this->model->getFieldsFactory($data);
         $values = $fieldsFactory->getValues();
