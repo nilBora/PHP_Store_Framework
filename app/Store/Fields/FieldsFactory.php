@@ -12,10 +12,13 @@ class FieldsFactory implements FieldsFactoryInterface
     {
         $fieldsEntities = [];
         $errors = [];
+        $files = $data['FILES'] ?? [];
         foreach ($fields as $field) {
             $className = ucfirst(mb_strtolower($field['type']));
             $namespace = "\Jtrw\Store\Fields\\".$className;
             $field['value'] = $data[$field['name']] ?? null;
+
+            $field['files'] = $files[$field['name']] ?? null;
             $filedEntity = new $namespace($field);
 
             if ($error = $filedEntity->doValidate()) {

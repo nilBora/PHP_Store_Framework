@@ -52,6 +52,7 @@ class StoreEloquentModel extends Model implements CustomModelInterface
         if (!array_key_exists('updated_at', $this->fillable)) {
             array_push($this->fillable, 'updated_at');
         }
+
         parent::__construct($attributes);
     } // end __construct
 

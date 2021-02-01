@@ -98,11 +98,11 @@ class StoreModel implements StoreModelInterface
         return $this->struct['fields'];
     } // end getFields
 
-    public function getFieldsFactory(array $data): FieldsFactoryInterface
+    public function getFieldsFactory(array $data, array $files = []): FieldsFactoryInterface
     {
         $fields = $this->getFields();
 
-        return new FieldsFactory($fields, $data);
+        return new FieldsFactory($fields, $data, $files);
     } // end getFieldsEntity
 
     public function hasKeyInStruct(string $key): bool
@@ -129,6 +129,7 @@ class StoreModel implements StoreModelInterface
         if (file_exists($options['plugins_dir'].$modelName."/".$modelName.".php")) {
 
             $namespace = $options['plugins_namespace']."\\".$modelName."\\".$modelName;
+
             $model = new $namespace([], $struct);
 
             if (!($model instanceof CustomModelInterface)) {

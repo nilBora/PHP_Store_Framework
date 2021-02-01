@@ -21,6 +21,9 @@ class ActionEdit extends ActionDefault implements ActionInterface
         }
 
         $data = $this->request->request->all();
+        $files = $this->request->files->all();
+
+        $data['FILES'] = $files;
 
         $fieldsFactory = $this->model->getFieldsFactory($data);
         $values = $fieldsFactory->getValues();

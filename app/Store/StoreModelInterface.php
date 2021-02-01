@@ -1,6 +1,7 @@
 <?php
 namespace Jtrw\Store;
 
+use Jtrw\Store\Fields\FieldsFactoryInterface;
 use Jtrw\Store\Model\CustomModelInterface;
 use Jtrw\Store\Proxy\ProxyInterface;
 
@@ -15,4 +16,5 @@ interface StoreModelInterface
     public function getProxy(): ProxyInterface;
     public function hasModelFile(): bool;
     public function getCustomModel(): CustomModelInterface;
+    public function getFieldsFactory(array $data): FieldsFactoryInterface;
 }

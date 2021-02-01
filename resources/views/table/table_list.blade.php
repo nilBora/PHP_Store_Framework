@@ -45,7 +45,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="js-modal-form" method="POST" action="/api/v2/{{$storeName}}/">
+                <form class="js-modal-form" method="POST" action="/api/v2/{{$storeName}}/" enctype="multipart/form-data">
                     <div class="modal-body">
                             <!--Modal-->
                     </div>
@@ -55,6 +55,7 @@
                         <button type="button" class="btn btn-primary js-modal-form-edit-save">Save</button>
                     </div>
                  </form>
+
             </div>
         </div>
     </div>

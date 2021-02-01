@@ -123,9 +123,35 @@ var Store = {
 var StoreApi = {
     //XXX: add Access Token to headers
     post: function (url, formData, callback) {
-        jQuery.post(url, formData, function (data) {
-            callback(data);
+        let fd = new FormData();
+
+        for (let prop in formData) {
+            fd.append(prop, formData[prop]);
+        }
+
+        jQuery('input[type="file"]').each(function (index, element) {
+            let files = jQuery(element)[0].files[0];
+
+            fd.append(jQuery(element).attr('name'), files);
+        })
+
+        //let files = jQuery('#customFile_cv')[0].files[0];
+       // console.log(files);
+        //fd.append('cv', files);
+        //console.log(fd);
+        jQuery.ajax({
+            url: url,
+            type: 'POST',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                callback(response);
+            },
         });
+        // jQuery.post(url, formData, function (data) {
+        //     callback(data);
+        // });
     },
     get: function (url, callback) {
         jQuery.get(url, function (data) {
