@@ -6,6 +6,7 @@
             @if($row->{$options['foreignKeyField']} == $options['value']) selected="selected" @endif>{{  $row->{$options['foreignValueField']} }}</option>
         @endforeach
     </select>
+    <span class="error invalid-feedback"></span>
 </div>
 <script>
     jQuery(function() {

@@ -46,8 +46,8 @@ var Store = {
                     console.log(data);
                     if (data.status == 'success') {
                         $modal.modal('toggle');
-                        //StoreNotifications.success('Success Change!', 'Row ID#'+id+' was changed!');
-                        //location.reload();
+                        StoreNotifications.success('Success Change!', 'Row ID#'+id+' was changed!');
+                        location.reload();
                     }
 
                     //XXX: add logic validate fields
@@ -56,8 +56,12 @@ var Store = {
                             let fileds = JSON.parse(data.fields);
 
                             jQuery.each(fileds, function(name, value) {
-                                let fieldName = value.name;
-                                jQuery('input[name="'+fieldName+'"]').addClass('is-invalid');
+                                let fieldName = value.name,
+                                    $input = jQuery('input[name="'+fieldName+'"]');
+                                $input.addClass('is-invalid');
+                                if ($input.next('span').hasClass('error') && value.error) {
+                                    $input.next('span').html(value.error);
+                                }
                             })
                         } else {
                             jQuery('.error').text(data.message);
@@ -79,8 +83,6 @@ var Store = {
                     if (data.status == 'error') {
                         jQuery('.error').text(data.message);
                     }
-
-
                 });
             }
 

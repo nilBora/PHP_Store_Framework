@@ -8,6 +8,7 @@
                     @if (in_array($row->{$options['foreignKeyField']}, $values)) selected="selected" @endif>{{  $row->{$options['foreignValueField']} }}</option>
         @endforeach
     </select>
+    <span class="error invalid-feedback"></span>
 </div>
 
 <script>

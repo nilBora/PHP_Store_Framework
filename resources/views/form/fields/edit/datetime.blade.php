@@ -7,6 +7,7 @@
                id="reservationdate"
                value="{{ $field->getValue() }}"
                data-format="{{ $field->getFormat() }}"/>
+        <span class="error invalid-feedback"></span>
         <div class="input-group-append">
             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
         </div>
